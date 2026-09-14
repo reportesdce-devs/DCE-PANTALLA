@@ -1,115 +1,2147 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07142f">
-  <meta name="description" content="Pantalla informativa de la División de Ciencias Exactas del IEST Anáhuac.">
-  <title>DCE Display | IEST Anáhuac</title>
-  <link rel="stylesheet" href="assets/display.css">
-</head>
-<body>
-  <main class="display-shell">
-    <header class="display-header">
-      <img class="brand-logo" src="Logos DCE (1).png" alt="Universidad Anáhuac, Ingenierías y División de Ciencias Exactas">
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+  <meta name="theme-color" content="#f2f6fb">
 
-      <div class="brand-values" aria-label="Valores DCE">
-        <span>Talento</span><i></i><span>Innovación</span><i></i><span>Impacto</span>
+  <title>DCE Display | IEST Anáhuac</title>
+
+  <style>
+    :root {
+      --navy: #07142f;
+      --blue: #405486;
+      --muted: #7180a2;
+      --orange: #ff3b0a;
+      --surface: rgba(255, 255, 255, 0.9);
+      --line: rgba(54, 75, 116, 0.14);
+      --shadow: 0 1vw 2.4vw rgba(25, 45, 78, 0.09);
+      --u: min(1vw, 1.7778vh);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      background: #dce3ed;
+      font-family:
+        Inter,
+        Montserrat,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    }
+
+    .screen {
+      display: grid;
+      grid-template-rows: 6.5fr minmax(0, 38fr) 6.3fr;
+      gap: calc(var(--u) * 1.05);
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      min-width: 0;
+      padding:
+        calc(var(--u) * 1.65)
+        calc(var(--u) * 2.3);
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 50% -20%,
+          #ffffff,
+          transparent 54%
+        ),
+        linear-gradient(
+          135deg,
+          #fbfcfe 0%,
+          #edf2f7 100%
+        );
+    }
+
+    /* ENCABEZADO */
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 43fr 36fr 21fr;
+      align-items: center;
+      min-height: 0;
+    }
+
+    .institutional-brand {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .institutional-logo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: calc(var(--u) * 40);
+      max-height: calc(var(--u) * 6);
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .topbar > *,
+    .footer > * {
+      min-width: 0;
+    }
+
+    .values {
+      display: grid;
+      grid-template-columns: repeat(5, auto);
+      align-items: center;
+      justify-content: center;
+      gap: calc(var(--u) * 1.15);
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.79);
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .values i {
+      width: 1px;
+      height: calc(var(--u) * 1.2);
+      background: #a8b2c8;
+    }
+
+    .values small {
+      grid-column: 1 / -1;
+      margin-top: calc(var(--u) * 0.24);
+      font-size: 0.75em;
+      font-weight: 500;
+      letter-spacing: 0.46em;
+      text-align: center;
+    }
+
+    .purpose {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: calc(var(--u) * 1.15);
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.64);
+      font-weight: 600;
+      letter-spacing: 0.23em;
+      line-height: 1.55;
+      text-transform: uppercase;
+    }
+
+    .purpose p {
+      margin: 0;
+    }
+
+    .purpose-mark {
+      width: calc(var(--u) * 1.2);
+      height: calc(var(--u) * 3);
+      background: var(--orange);
+      clip-path: polygon(
+        38% 0,
+        100% 0,
+        62% 100%,
+        0 100%
+      );
+    }
+
+    /* CONTENIDO */
+
+    .content {
+      display: grid;
+      grid-template-columns: 64fr 34fr;
+      gap: calc(var(--u) * 1.2);
+      min-height: 0;
+    }
+
+    /* EVENTO DESTACADO */
+
+    .hero {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: calc(var(--u) * 2);
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.99) 0%,
+          rgba(255, 255, 255, 0.96) 36%,
+          rgba(255, 255, 255, 0.46) 59%,
+          rgba(4, 14, 32, 0.08) 100%
+        ),
+        url("evento-destacado.jpg")
+        center / cover no-repeat,
+        linear-gradient(
+          135deg,
+          #f8fafc 0%,
+          #c3cfdd 100%
+        );
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      position: absolute;
+      inset: auto 0 0;
+      height: 28%;
+      background:
+        linear-gradient(
+          transparent,
+          rgba(3, 12, 29, 0.18)
+        );
+      content: "";
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      height: 100%;
+      padding: calc(var(--u) * 2);
+    }
+
+    .featured-label {
+      display: inline-flex;
+      align-self: flex-start;
+      align-items: center;
+      gap: calc(var(--u) * 0.65);
+      padding:
+        calc(var(--u) * 0.65)
+        calc(var(--u) * 1.4);
+      border-radius: 999px;
+      color: #ffffff;
+      background:
+        linear-gradient(
+          90deg,
+          #ff3008,
+          #ff7748
+        );
+      box-shadow:
+        0
+        calc(var(--u) * 0.5)
+        calc(var(--u) * 1.25)
+        rgba(255, 55, 10, 0.3);
+      font-size: calc(var(--u) * 0.72);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .featured-label span {
+      font-size: 1.45em;
+    }
+
+    .hero-copy {
+      margin: auto 0;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: calc(var(--u) * 5.05);
+      font-weight: 850;
+      letter-spacing: -0.07em;
+      line-height: 0.86;
+    }
+
+    .hero h1 strong {
+      display: block;
+      color: var(--orange);
+    }
+
+    .hero-slogan {
+      margin: calc(var(--u) * 1.2) 0 0;
+      color: var(--blue);
+      font-size: calc(var(--u) * 1.18);
+      letter-spacing: 0.37em;
+      text-transform: uppercase;
+    }
+
+    .hero-topics {
+      margin: calc(var(--u) * 1.05) 0 0;
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.68);
+      font-weight: 650;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .event-details {
+      display: flex;
+      gap: calc(var(--u) * 0.8);
+      margin-top: calc(var(--u) * 1.3);
+    }
+
+    .detail {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * 0.8);
+      min-height: calc(var(--u) * 4.2);
+      padding:
+        calc(var(--u) * 0.65)
+        calc(var(--u) * 1.05);
+      border: 1px solid rgba(68, 87, 126, 0.17);
+      border-radius: calc(var(--u) * 1.15);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(12px);
+    }
+
+    .detail:last-child {
+      flex: 1;
+    }
+
+    .detail-icon {
+      color: #050a14;
+      font-size: calc(var(--u) * 1.7);
+    }
+
+    .detail strong,
+    .detail small {
+      display: block;
+    }
+
+    .detail strong {
+      font-size: calc(var(--u) * 1.02);
+    }
+
+    .detail small {
+      margin-top: calc(var(--u) * 0.12);
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.72);
+    }
+
+    .hero-footer {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * 2);
+    }
+
+    .hero-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: calc(var(--u) * 13.5);
+      padding:
+        calc(var(--u) * 0.85)
+        calc(var(--u) * 1.35);
+      border-radius: 999px;
+      color: #ffffff;
+      background:
+        linear-gradient(
+          90deg,
+          #ff3108,
+          #ff7546
+        );
+      box-shadow:
+        0
+        calc(var(--u) * 0.55)
+        calc(var(--u) * 1.2)
+        rgba(255, 55, 10, 0.27);
+      font-size: calc(var(--u) * 0.82);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-button span {
+      font-size: 1.5em;
+    }
+
+    .hero-motto {
+      padding-left: calc(var(--u) * 1.55);
+      border-left: 1px solid #8e9ab5;
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.58);
+      font-weight: 650;
+      letter-spacing: 0.27em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .hero-keywords {
+      position: absolute;
+      top: calc(var(--u) * 2);
+      right: calc(var(--u) * 2);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--u) * 0.32);
+      color: #ffffff;
+      font-size: calc(var(--u) * 0.54);
+      letter-spacing: 0.26em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .hero-keywords::after {
+      width: calc(var(--u) * 1.2);
+      height: 2px;
+      margin-top: calc(var(--u) * 0.45);
+      background: var(--orange);
+      content: "";
+    }
+
+    /* COLUMNA DERECHA */
+
+    .sidebar {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) 31%;
+      gap: calc(var(--u) * 0.75);
+      min-height: 0;
+    }
+
+    .events {
+      display: grid;
+      grid-template-rows:
+        calc(var(--u) * 3.2)
+        repeat(3, minmax(0, 1fr));
+      gap: calc(var(--u) * 0.62);
+      min-height: 0;
+    }
+
+    .events-header,
+    .event-card,
+    .programs {
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .events-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 calc(var(--u) * 1.4);
+      border-radius: calc(var(--u) * 1.4);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * 0.65);
+    }
+
+    .section-title span {
+      font-size: calc(var(--u) * 1.3);
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: calc(var(--u) * 1.02);
+    }
+
+    .view-all {
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.56);
+      font-weight: 750;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .view-all b {
+      margin-left: calc(var(--u) * 0.3);
+      color: var(--orange);
+      font-size: 1.5em;
+    }
+
+    .event-card {
+      display: grid;
+      grid-template-columns:
+        calc(var(--u) * 4.5)
+        minmax(0, 1fr)
+        calc(var(--u) * 3);
+      align-items: center;
+      gap: calc(var(--u) * 0.75);
+      min-height: 0;
+      padding:
+        calc(var(--u) * 0.65)
+        calc(var(--u) * 1.2);
+      border-radius: calc(var(--u) * 1.4);
+    }
+
+    .date-card {
+      display: flex;
+      flex-direction: column;
+      padding-right: calc(var(--u) * 0.75);
+      border-right: 1px solid var(--line);
+      font-style: normal;
+    }
+
+    .date-card span {
+      color: var(--orange);
+      font-size: calc(var(--u) * 0.78);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .date-card strong {
+      font-size: calc(var(--u) * 1.95);
+      line-height: 1;
+    }
+
+    .date-card small {
+      margin-top: calc(var(--u) * 0.22);
+      color: var(--muted);
+      font-size: calc(var(--u) * 0.68);
+    }
+
+    .event-info {
+      min-width: 0;
+    }
+
+    .event-info h3,
+    .event-info p,
+    .event-location {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-info h3 {
+      margin: 0;
+      font-size: calc(var(--u) * 0.82);
+    }
+
+    .event-info p {
+      margin: calc(var(--u) * 0.18) 0 0;
+      color: var(--muted);
+      font-size: calc(var(--u) * 0.69);
+    }
+
+    .event-location {
+      display: block;
+      margin-top: calc(var(--u) * 0.22);
+      color: var(--muted);
+      font-size: calc(var(--u) * 0.61);
+    }
+
+    .event-location b {
+      margin-right: calc(var(--u) * 0.28);
+      color: var(--orange);
+    }
+
+    .event-arrow {
+      display: grid;
+      place-items: center;
+      width: calc(var(--u) * 2.65);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      color: var(--orange);
+      background: rgba(255, 65, 18, 0.11);
+      font-size: calc(var(--u) * 1.4);
+    }
+
+    /* CARRERAS */
+
+    .programs {
+      min-height: 0;
+      padding: calc(var(--u) * 0.72);
+      border-radius: calc(var(--u) * 1.4);
+    }
+
+    .programs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .programs-header div {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * 0.48);
+    }
+
+    .programs-header b {
+      color: var(--orange);
+      font-size: calc(var(--u) * 1.25);
+    }
+
+    .programs-header h2 {
+      margin: 0;
+      font-size: calc(var(--u) * 0.78);
+    }
+
+    .programs-header > span {
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.48);
+      font-weight: 750;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: calc(var(--u) * 0.42);
+      height: calc(100% - var(--u) * 1.45);
+      margin-top: calc(var(--u) * 0.42);
+    }
+
+    .program {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-width: 0;
+      border-radius: calc(var(--u) * 0.95);
+      background: rgba(255, 255, 255, 0.66);
+      text-align: center;
+    }
+
+    .program-icon {
+      display: grid;
+      place-items: center;
+      width: calc(var(--u) * 3.3);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      color: #ffffff;
+      box-shadow:
+        0
+        calc(var(--u) * 0.42)
+        calc(var(--u) * 1)
+        rgba(30, 50, 85, 0.16);
+      font-size: calc(var(--u) * 1.3);
+    }
+
+    .program h3 {
+      min-height: 2.2em;
+      margin: calc(var(--u) * 0.32) 0 0;
+      font-size: calc(var(--u) * 0.55);
+      font-weight: 550;
+      line-height: 1.08;
+    }
+
+    .systems .program-icon {
+      background:
+        linear-gradient(145deg, #ff773d, #ff3108);
+    }
+
+    .industrial .program-icon {
+      background:
+        linear-gradient(145deg, #ffc92b, #e89c00);
+    }
+
+    .mechatronics .program-icon {
+      background:
+        linear-gradient(145deg, #ac40ff, #7128df);
+    }
+
+    .chemistry .program-icon {
+      background:
+        linear-gradient(145deg, #3bd67f, #0bab56);
+    }
+
+    /* PIE */
+
+    .footer {
+      display: grid;
+      grid-template-columns: 27fr 37fr 26fr 10fr;
+      align-items: center;
+      min-height: 0;
+      padding:
+        calc(var(--u) * 0.5)
+        calc(var(--u) * 1.9);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: calc(var(--u) * 2);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .clock {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * 1.15);
+      min-width: 0;
+    }
+
+    .clock > strong {
+      padding-right: calc(var(--u) * 1.15);
+      border-right: 2px solid var(--orange);
+      color: #050505;
+      font-size: calc(var(--u) * 2.3);
+      line-height: 1;
+    }
+
+    .clock div {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .clock b {
+      font-size: calc(var(--u) * 0.68);
+    }
+
+    .clock span {
+      margin-top: calc(var(--u) * 0.18);
+      overflow: hidden;
+      color: var(--muted);
+      font-size: calc(var(--u) * 0.62);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .phrase {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(var(--u) * 0.75);
+      height: 70%;
+      margin: 0;
+      padding: 0 calc(var(--u) * 0.9);
+      border-right: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .phrase span {
+      color: var(--orange);
+      font-family: Georgia, serif;
+      font-size: calc(var(--u) * 2.5);
+      font-weight: 700;
+      line-height: 0.7;
+    }
+
+    .phrase p {
+      margin: 0;
+      font-size: calc(var(--u) * 0.78);
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* CLIMA */
+
+    .weather {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: calc(var(--u) * 0.55);
+      height: 78%;
+      padding: 0 calc(var(--u) * 0.75);
+      overflow: hidden;
+    }
+
+    .weather-icon {
+      display: grid;
+      place-items: center;
+      width: calc(var(--u) * 2.7);
+      height: calc(var(--u) * 2.7);
+      font-size: calc(var(--u) * 1.95);
+      line-height: 1;
+    }
+
+    .weather-data {
+      min-width: 0;
+    }
+
+    .weather-heading {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * 0.4);
+      min-width: 0;
+    }
+
+    .weather-heading strong {
+      flex-shrink: 0;
+      font-size: calc(var(--u) * 1.1);
+      line-height: 1;
+    }
+
+    .weather-heading b {
+      overflow: hidden;
+      font-size: calc(var(--u) * 0.65);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .weather-description,
+    .weather-forecast {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .weather-description {
+      margin-top: calc(var(--u) * 0.16);
+      color: var(--muted);
+      font-size: calc(var(--u) * 0.48);
+    }
+
+    .weather-forecast {
+      margin-top: calc(var(--u) * 0.12);
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.44);
+      font-weight: 600;
+    }
+
+    .weather-indicators {
+      position: absolute;
+      right: calc(var(--u) * 0.75);
+      bottom: 0;
+      display: flex;
+      gap: calc(var(--u) * 0.16);
+    }
+
+    .weather-indicators span {
+      width: calc(var(--u) * 0.22);
+      height: calc(var(--u) * 0.22);
+      border-radius: 50%;
+      background: #cad1de;
+      transition:
+        width 0.4s ease,
+        background-color 0.4s ease;
+    }
+
+    .weather-indicators span.active {
+      width: calc(var(--u) * 0.7);
+      border-radius: 999px;
+      background: var(--orange);
+    }
+
+    .footer-brand {
+      padding-left: calc(var(--u) * 1.3);
+      border-left: 1px solid var(--line);
+      color: var(--blue);
+      font-size: calc(var(--u) * 0.59);
+      font-weight: 650;
+      letter-spacing: 0.28em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    /* TABLETAS Y PANTALLAS COMPACTAS */
+
+    @media (max-width: 1100px) {
+      :root {
+        --u: clamp(0.72rem, 1.55vw, 1rem);
+        --shadow: 0 0.75rem 2rem rgba(25, 45, 78, 0.09);
+      }
+
+      html,
+      body {
+        height: auto;
+        min-height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      body {
+        display: block;
+      }
+
+      .screen {
+        grid-template-rows: auto auto auto;
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100svh;
+        gap: 1rem;
+        padding: clamp(1rem, 3vw, 2rem);
+        overflow: visible;
+      }
+
+      .topbar {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1rem 2rem;
+      }
+
+      .institutional-brand {
+        min-height: 4.5rem;
+      }
+
+      .institutional-logo {
+        width: min(100%, 34rem);
+        height: auto;
+        max-width: 100%;
+        max-height: 5rem;
+      }
+
+      .values {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        gap: clamp(0.65rem, 2.2vw, 1.25rem);
+        font-size: clamp(0.66rem, 1.4vw, 0.8rem);
+      }
+
+      .purpose {
+        font-size: clamp(0.6rem, 1.25vw, 0.75rem);
+      }
+
+      .content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .hero {
+        min-height: clamp(31rem, 67vw, 42rem);
+        border-radius: 1.5rem;
+      }
+
+      .hero-content {
+        width: min(68%, 43rem);
+        padding: clamp(1.25rem, 3vw, 2rem);
+      }
+
+      .hero h1 {
+        font-size: clamp(3.4rem, 8vw, 5.25rem);
+      }
+
+      .hero-slogan {
+        font-size: clamp(0.85rem, 2vw, 1.2rem);
+      }
+
+      .hero-topics,
+      .featured-label,
+      .detail strong,
+      .detail small,
+      .hero-button,
+      .hero-motto {
+        font-size: clamp(0.75rem, 1.5vw, 1rem);
+      }
+
+      .sidebar {
+        grid-template-columns: minmax(0, 1.35fr) minmax(19rem, 0.65fr);
+        grid-template-rows: auto;
+        gap: 1rem;
+      }
+
+      .events {
+        grid-template-rows: auto repeat(3, minmax(7rem, auto));
+        gap: 0.75rem;
+      }
+
+      .events-header,
+      .event-card,
+      .programs {
+        border-radius: 1.25rem;
+      }
+
+      .events-header {
+        min-height: 4rem;
+        padding: 0 1.25rem;
+      }
+
+      .section-title h2 {
+        font-size: clamp(0.95rem, 2vw, 1.15rem);
+      }
+
+      .view-all {
+        font-size: 0.7rem;
+      }
+
+      .event-card {
+        grid-template-columns: 4rem minmax(0, 1fr) 2.5rem;
+        gap: 0.85rem;
+        padding: 0.85rem 1rem;
+      }
+
+      .date-card span,
+      .event-info h3 {
+        font-size: 0.9rem;
+      }
+
+      .date-card strong {
+        font-size: 1.9rem;
+      }
+
+      .date-card small,
+      .event-info p,
+      .event-location {
+        font-size: 0.75rem;
+      }
+
+      .event-arrow {
+        width: 2.5rem;
+        font-size: 1.25rem;
+      }
+
+      .programs {
+        padding: 1rem;
+      }
+
+      .programs-header > span {
+        display: none;
+      }
+
+      .programs-header h2 {
+        font-size: 0.9rem;
+      }
+
+      .program-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        height: auto;
+        margin-top: 0.75rem;
+        gap: 0.65rem;
+      }
+
+      .program {
+        min-height: 7.25rem;
+        padding: 0.65rem;
+      }
+
+      .program-icon {
+        width: 3.25rem;
+        font-size: 1.3rem;
+      }
+
+      .program h3 {
+        margin-top: 0.4rem;
+        font-size: 0.72rem;
+      }
+
+      .footer {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        border-radius: 1.5rem;
+      }
+
+      .clock > strong {
+        font-size: 2.2rem;
+      }
+
+      .clock b,
+      .clock span,
+      .weather-heading b,
+      .weather-description,
+      .weather-forecast,
+      .footer-brand {
+        font-size: 0.75rem;
+      }
+
+      .phrase {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        min-height: 3.5rem;
+        border: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .phrase p {
+        font-size: 0.9rem;
+      }
+
+      .weather {
+        height: auto;
+        min-height: 4rem;
+        padding: 0;
+      }
+
+      .weather-icon {
+        width: 3rem;
+        height: 3rem;
+        font-size: 2rem;
+      }
+
+      .weather-heading strong {
+        font-size: 1.2rem;
+      }
+
+      .footer-brand {
+        display: none;
+      }
+    }
+
+    /* TELÉFONOS */
+
+    @media (max-width: 700px) {
+      :root {
+        --u: 1rem;
+      }
+
+      .screen {
+        gap: 0.85rem;
+        padding: clamp(0.75rem, 4vw, 1.25rem);
+      }
+
+      .topbar {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .institutional-brand {
+        justify-content: center;
+        min-height: 0;
+      }
+
+      .institutional-logo {
+        width: 100%;
+        max-height: none;
+      }
+
+      .values {
+        grid-column: 1;
+        grid-row: auto;
+        gap: clamp(0.35rem, 2vw, 0.75rem);
+        font-size: clamp(0.58rem, 2.5vw, 0.72rem);
+        letter-spacing: 0.14em;
+      }
+
+      .values small {
+        letter-spacing: 0.28em;
+      }
+
+      .purpose {
+        justify-content: center;
+        font-size: 0.68rem;
+        text-align: center;
+      }
+
+      .purpose p br {
+        display: none;
+      }
+
+      .purpose-mark {
+        width: 0.8rem;
+        height: 2rem;
+      }
+
+      .hero {
+        min-height: 39rem;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.99) 0%,
+            rgba(255, 255, 255, 0.94) 72%,
+            rgba(238, 243, 249, 0.92) 100%
+          ),
+          url("evento-destacado.jpg") center / cover no-repeat;
+      }
+
+      .hero-content {
+        width: 100%;
+        padding: clamp(1rem, 5vw, 1.5rem);
+      }
+
+      .featured-label {
+        padding: 0.65rem 1rem;
+        font-size: 0.7rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 14vw, 4.25rem);
+        line-height: 0.92;
+      }
+
+      .hero-slogan {
+        font-size: clamp(0.78rem, 3.5vw, 1rem);
+        letter-spacing: 0.2em;
+      }
+
+      .hero-topics {
+        font-size: 0.7rem;
+        line-height: 1.6;
+        white-space: normal;
+      }
+
+      .event-details {
+        flex-direction: column;
+        gap: 0.65rem;
+        margin-top: 1rem;
+      }
+
+      .detail {
+        width: 100%;
+        min-height: 4.25rem;
+        padding: 0.7rem 0.9rem;
+      }
+
+      .detail:last-child {
+        flex: initial;
+      }
+
+      .detail-icon {
+        font-size: 1.5rem;
+      }
+
+      .detail strong {
+        font-size: 0.95rem;
+      }
+
+      .detail small {
+        font-size: 0.78rem;
+      }
+
+      .hero-footer {
+        flex-wrap: wrap;
+        gap: 0.9rem;
+      }
+
+      .hero-button {
+        width: min(100%, 14rem);
+        padding: 0.8rem 1.1rem;
+        font-size: 0.8rem;
+      }
+
+      .hero-motto {
+        font-size: 0.66rem;
+      }
+
+      .hero-keywords {
+        display: none;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .events {
+        grid-template-rows: auto;
+      }
+
+      .events-header {
+        min-height: 3.75rem;
+      }
+
+      .event-card {
+        min-height: 7.25rem;
+      }
+
+      .programs-header h2 {
+        font-size: clamp(0.8rem, 3.6vw, 1rem);
+      }
+
+      .footer {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .clock,
+      .weather {
+        min-height: 5rem;
+      }
+
+      .weather {
+        border-top: 1px solid var(--line);
+      }
+
+      .phrase {
+        grid-column: 1;
+        grid-row: auto;
+        min-height: 4.5rem;
+        padding: 0.75rem 0;
+      }
+
+      .phrase span {
+        font-size: 2rem;
+      }
+
+      .weather-description,
+      .weather-forecast {
+        white-space: normal;
+      }
+
+      .weather-indicators {
+        right: 0;
+        bottom: 0.25rem;
+      }
+    }
+
+    /* TELÉFONOS MUY ESTRECHOS */
+
+    @media (max-width: 390px) {
+      .values {
+        grid-template-columns: repeat(3, auto);
+      }
+
+      .values i {
+        display: none;
+      }
+
+      .values small {
+        grid-column: 1 / -1;
+      }
+
+      .purpose {
+        display: none;
+      }
+
+      .hero {
+        min-height: 37rem;
+      }
+
+      .event-card {
+        grid-template-columns: 3.5rem minmax(0, 1fr);
+      }
+
+      .event-arrow {
+        display: none;
+      }
+
+      .event-info p,
+      .event-location {
+        white-space: normal;
+      }
+
+      .program-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .program {
+        min-height: 6.5rem;
+      }
+
+      .clock {
+        gap: 0.75rem;
+      }
+
+      .clock > strong {
+        padding-right: 0.75rem;
+        font-size: 1.85rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    /* CAPA DINÁMICA: conserva el diseño original y muestra medios solo cuando existen */
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      background-position: center;
+      background-size: cover;
+      transition: opacity 500ms ease;
+    }
+
+    .hero-media.active {
+      opacity: 0.42;
+    }
+
+    .hero-media::after {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #fff 5%, rgba(255,255,255,.95) 38%, rgba(255,255,255,.2) 100%);
+      content: "";
+    }
+
+    .hero-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-button {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .announcement-chip {
+      position: absolute;
+      right: calc(var(--u) * 2);
+      bottom: calc(var(--u) * 2);
+      z-index: 3;
+      display: flex;
+      max-width: 35%;
+      align-items: center;
+      gap: calc(var(--u) * .75);
+      padding: calc(var(--u) * .65) calc(var(--u) * .9);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: calc(var(--u) * .7);
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 calc(var(--u) * .6) calc(var(--u) * 1.8) rgba(17,38,75,.12);
+      color: var(--blue);
+      backdrop-filter: blur(12px);
+    }
+
+    .announcement-chip[hidden] {
+      display: none;
+    }
+
+    .announcement-chip b {
+      flex: none;
+      color: var(--orange);
+      font-size: calc(var(--u) * .58);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .announcement-chip span {
+      overflow: hidden;
+      font-size: calc(var(--u) * .62);
+      font-weight: 650;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .events-empty {
+      display: grid;
+      min-height: 0;
+      place-items: center;
+      padding: 1rem;
+      border-radius: calc(var(--u) * 1.2);
+      background: var(--white);
+      color: var(--muted);
+      font-size: .8rem;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .announcement-chip {
+        right: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        max-width: none;
+        padding: .7rem .85rem;
+      }
+
+      .announcement-chip b,
+      .announcement-chip span {
+        font-size: .7rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="screen">
+
+    <header class="topbar">
+      <div class="institutional-brand">
+        <img
+          class="institutional-logo"
+          src="Logos DCE (1).png"
+          alt="Universidad Anáhuac, Ingenierías y División de Ciencias Exactas"
+        >
       </div>
 
-      <div class="live-status"><span></span> Información en vivo</div>
+      <div class="values">
+        <span>Talento</span>
+        <i></i>
+        <span>Innovación</span>
+        <i></i>
+        <span>Impacto</span>
+
+        <small>Para un mejor mañana</small>
+      </div>
+
+      <div class="purpose">
+        <span class="purpose-mark"></span>
+
+        <p>
+          Formamos ingenieros<br>
+          que trascienden
+        </p>
+      </div>
     </header>
 
-    <section class="announcement-bar" id="announcement-bar" hidden>
-      <strong id="announcement-label">Aviso</strong>
-      <p id="announcement-text"></p>
-      <div class="announcement-progress"><i id="announcement-progress"></i></div>
-    </section>
+    <section class="content">
 
-    <section class="display-grid">
-      <article class="featured" id="featured-card">
-        <div class="featured-media" id="featured-media" aria-hidden="true"></div>
-        <div class="featured-overlay"></div>
-        <div class="featured-copy">
-          <span class="eyebrow">Evento destacado</span>
-          <h1 id="featured-title">Conferencia: IA en la Industria</h1>
-          <p class="featured-summary" id="featured-summary">Retos y oportunidades de la inteligencia artificial aplicada.</p>
-          <div class="featured-meta">
-            <span id="featured-date">16 septiembre</span>
-            <span id="featured-time">11:00 h</span>
-            <span id="featured-location">Auditorio David Gómez Fuentes</span>
+      <article class="hero" id="featured-card">
+        <div class="hero-media" id="hero-media" aria-hidden="true"></div>
+        <div class="hero-content">
+
+          <div class="featured-label">
+            <span>▦</span>
+            Evento destacado
           </div>
-          <a class="featured-cta" id="featured-cta" href="#" hidden>Conoce más <span>→</span></a>
+
+          <div class="hero-copy">
+            <h1 id="featured-title">
+              <span>Semana de</span>
+              <strong>Ingeniería</strong>
+            </h1>
+
+            <p class="hero-slogan" id="featured-summary">
+              Ideas que transforman
+            </p>
+
+            <p class="hero-topics" id="featured-description">
+              Conferencias · Talleres · Networking · Tecnología
+            </p>
+
+            <div class="event-details">
+              <div class="detail">
+                <span class="detail-icon">▦</span>
+
+                <div>
+                  <strong id="featured-day">3 – 4</strong>
+                  <small id="featured-month">Septiembre 2026</small>
+                </div>
+              </div>
+
+              <div class="detail">
+                <span class="detail-icon">⌖</span>
+
+                <div>
+                  <strong id="featured-location-main">Auditorio</strong>
+                  <small id="featured-location-detail">David Gómez Fuentes</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <footer class="hero-footer">
+            <a class="hero-button" id="featured-cta" href="#">
+              <span class="hero-button-label">Conoce más</span>
+              <span>→</span>
+            </a>
+
+            <div class="hero-motto">
+              Ingeniería<br>
+              que impulsa el futuro
+            </div>
+          </footer>
         </div>
-        <div class="featured-countdown" id="featured-countdown" aria-label="Cuenta regresiva"></div>
+
+        <div class="hero-keywords">
+          <span>Ideas</span>
+          <span>Personas</span>
+          <span>Tecnología</span>
+          <span>Un mundo mejor</span>
+        </div>
+
+        <div class="announcement-chip" id="announcement-bar" hidden>
+          <b id="announcement-title">Aviso</b>
+          <span id="announcement-text"></span>
+        </div>
       </article>
 
-      <aside class="right-rail">
-        <section class="panel upcoming-panel">
-          <div class="panel-heading">
-            <div>
-              <span class="section-kicker">Agenda DCE</span>
+      <aside class="sidebar">
+
+        <section class="events" id="events-list">
+          <header class="events-header">
+            <div class="section-title">
+              <span>▦</span>
               <h2>Próximos eventos</h2>
             </div>
-            <span class="event-count" id="event-count">0 eventos</span>
-          </div>
-          <div class="event-list" id="event-list" aria-live="polite"></div>
+
+            <span class="view-all">
+              Ver todos <b>→</b>
+            </span>
+          </header>
+
+          <article class="event-card">
+            <time
+              class="date-card"
+              datetime="2026-09-10"
+            >
+              <span>Sep</span>
+              <strong>10</strong>
+              <small>Mié</small>
+            </time>
+
+            <div class="event-info">
+              <h3>Hackathon de Innovación</h3>
+              <p>Soluciones para un mejor futuro</p>
+
+              <span class="event-location">
+                <b>●</b>Laboratorios DCE
+              </span>
+            </div>
+
+            <span class="event-arrow">→</span>
+          </article>
+
+          <article class="event-card">
+            <time
+              class="date-card"
+              datetime="2026-09-16"
+            >
+              <span>Sep</span>
+              <strong>16</strong>
+              <small>Mar</small>
+            </time>
+
+            <div class="event-info">
+              <h3>Conferencia: IA en la Industria</h3>
+              <p>Retos y oportunidades</p>
+
+              <span class="event-location">
+                <b>●</b>Auditorio David Gómez Fuentes
+              </span>
+            </div>
+
+            <span class="event-arrow">→</span>
+          </article>
+
+          <article class="event-card">
+            <time
+              class="date-card"
+              datetime="2026-09-23"
+            >
+              <span>Sep</span>
+              <strong>23</strong>
+              <small>Mar</small>
+            </time>
+
+            <div class="event-info">
+              <h3>Feria de Prácticas Profesionales</h3>
+              <p>Conecta con empresas</p>
+
+              <span class="event-location">
+                <b>●</b>Explanada Central
+              </span>
+            </div>
+
+            <span class="event-arrow">→</span>
+          </article>
         </section>
 
-        <section class="recruitment-card" id="recruitment-card">
-          <div>
-            <span class="section-kicker light">Para alumnos de preparatoria</span>
-            <h2 id="recruitment-title">Tu futuro también se diseña</h2>
-            <p id="recruitment-body">Conoce nuestras ingenierías y transforma tus ideas en soluciones.</p>
-          </div>
-          <div class="recruitment-footer">
-            <a id="recruitment-link" href="#" hidden>Conoce la DCE <span>↗</span></a>
-            <div class="pulse-orb" aria-hidden="true"><i></i><span>4</span></div>
+        <section class="programs">
+          <header class="programs-header">
+            <div>
+              <b>♙</b>
+              <h2>Conoce nuestras 4 ingenierías</h2>
+            </div>
+
+            <span>Tu talento, más lejos</span>
+          </header>
+
+          <div class="program-grid" id="career-grid">
+            <article class="program systems">
+              <div class="program-icon">▣</div>
+
+              <h3>
+                Sistemas y<br>
+                Negocios Digitales
+              </h3>
+            </article>
+
+            <article class="program industrial">
+              <div class="program-icon">⚙</div>
+              <h3>Industrial</h3>
+            </article>
+
+            <article class="program mechatronics">
+              <div class="program-icon">⌘</div>
+              <h3>Mecatrónica</h3>
+            </article>
+
+            <article class="program chemistry">
+              <div class="program-icon">⚗</div>
+              <h3>Química</h3>
+            </article>
           </div>
         </section>
+
       </aside>
     </section>
 
-    <section class="evidence-strip" id="evidence-section" hidden>
-      <div class="evidence-heading">
-        <span class="section-kicker">Así se vive Ingeniería</span>
-        <h2>Momentos que dejan huella</h2>
-      </div>
-      <div class="evidence-track" id="evidence-track"></div>
-    </section>
+    <footer class="footer">
 
-    <section class="careers-section">
-      <div class="careers-heading">
-        <span class="section-kicker">Encuentra tu camino</span>
-        <h2>Nuestras ingenierías</h2>
-      </div>
-      <div class="career-grid" id="career-grid"></div>
-    </section>
+      <section class="clock">
+        <strong id="time">--:--</strong>
 
-    <footer class="display-footer">
-      <section class="clock-block">
-        <strong id="clock">--:--</strong>
-        <div><b id="weekday">Cargando</b><span id="full-date">Fecha local</span></div>
+        <div>
+          <b id="weekday">Consultando…</b>
+          <span id="current-date">Fecha local</span>
+        </div>
       </section>
-      <p class="footer-message" id="footer-message">La ingeniería convierte ideas en oportunidades.</p>
-      <section class="weather-block" id="weather-block">
-        <span class="weather-icon" id="weather-icon">☀</span>
-        <div><strong id="weather-temperature">--°</strong><b id="weather-city">Tampico</b><small id="weather-description">Consultando clima…</small></div>
+
+      <blockquote class="phrase">
+        <span>“</span>
+
+        <p id="footer-message">
+          La ingeniería convierte ideas en oportunidades.
+        </p>
+
+        <span>”</span>
+      </blockquote>
+
+      <section class="weather" aria-live="polite">
+        <div
+          class="weather-icon"
+          id="weather-icon"
+        >
+          🌤️
+        </div>
+
+        <div class="weather-data">
+          <div class="weather-heading">
+            <strong id="weather-temperature">
+              --°
+            </strong>
+
+            <b id="weather-city">
+              Tampico
+            </b>
+          </div>
+
+          <span
+            class="weather-description"
+            id="weather-description"
+          >
+            Consultando clima…
+          </span>
+
+          <span
+            class="weather-forecast"
+            id="weather-forecast"
+          >
+            Máx. --° · Mín. --°
+          </span>
+        </div>
+
+        <div
+          class="weather-indicators"
+          aria-hidden="true"
+        >
+          <span class="active"></span>
+          <span></span>
+          <span></span>
+        </div>
       </section>
-      <span class="display-signature">IEST<br>Anáhuac</span>
+
+      <div class="footer-brand">
+        IEST<br>
+        Anáhuac
+      </div>
+
     </footer>
-
-    <div class="connection-state" id="connection-state" role="status" hidden></div>
   </main>
 
-  <template id="event-template">
-    <article class="event-row">
-      <time><span class="month"></span><strong class="day"></strong></time>
-      <div><h3></h3><p></p><small></small></div>
-      <span class="event-arrow">→</span>
-    </article>
-  </template>
+  <script>
+    "use strict";
 
+    const TIME_ZONE = "America/Monterrey";
+    const WEATHER_CACHE_KEY =
+      "dce-display-weather-v1";
+
+    const locations = [
+      {
+        name: "Altamira",
+        latitude: 22.3922,
+        longitude: -97.9389
+      },
+      {
+        name: "Tampico",
+        latitude: 22.2331,
+        longitude: -97.8611
+      },
+      {
+        name: "Ciudad Madero",
+        latitude: 22.2760,
+        longitude: -97.8330
+      }
+    ];
+
+    const elements = {
+      time: document.querySelector("#time"),
+
+      weekday:
+        document.querySelector("#weekday"),
+
+      date:
+        document.querySelector("#current-date"),
+
+      weatherIcon:
+        document.querySelector("#weather-icon"),
+
+      weatherTemperature:
+        document.querySelector(
+          "#weather-temperature"
+        ),
+
+      weatherCity:
+        document.querySelector("#weather-city"),
+
+      weatherDescription:
+        document.querySelector(
+          "#weather-description"
+        ),
+
+      weatherForecast:
+        document.querySelector(
+          "#weather-forecast"
+        ),
+
+      indicators:
+        document.querySelectorAll(
+          ".weather-indicators span"
+        )
+    };
+
+    let weatherData = [];
+    let activeWeatherIndex = 0;
+
+    function capitalize(text) {
+      if (!text) {
+        return "";
+      }
+
+      return (
+        text.charAt(0).toUpperCase() +
+        text.slice(1)
+      );
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+
+      elements.time.textContent =
+        new Intl.DateTimeFormat("es-MX", {
+          timeZone: TIME_ZONE,
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }).format(now);
+
+      const weekday =
+        new Intl.DateTimeFormat("es-MX", {
+          timeZone: TIME_ZONE,
+          weekday: "long"
+        }).format(now);
+
+      elements.weekday.textContent =
+        capitalize(weekday);
+
+      elements.date.textContent =
+        new Intl.DateTimeFormat("es-MX", {
+          timeZone: TIME_ZONE,
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }).format(now);
+    }
+
+    function getWeatherInformation(
+      code,
+      isDay = true
+    ) {
+      const weatherCodes = {
+        0: {
+          description: "Despejado",
+          icon: isDay ? "☀️" : "🌙"
+        },
+        1: {
+          description: "Mayormente despejado",
+          icon: isDay ? "🌤️" : "🌙"
+        },
+        2: {
+          description: "Parcialmente nublado",
+          icon: "⛅"
+        },
+        3: {
+          description: "Nublado",
+          icon: "☁️"
+        },
+        45: {
+          description: "Niebla",
+          icon: "🌫️"
+        },
+        48: {
+          description: "Niebla",
+          icon: "🌫️"
+        },
+        51: {
+          description: "Llovizna ligera",
+          icon: "🌦️"
+        },
+        53: {
+          description: "Llovizna",
+          icon: "🌦️"
+        },
+        55: {
+          description: "Llovizna intensa",
+          icon: "🌧️"
+        },
+        61: {
+          description: "Lluvia ligera",
+          icon: "🌦️"
+        },
+        63: {
+          description: "Lluvia",
+          icon: "🌧️"
+        },
+        65: {
+          description: "Lluvia intensa",
+          icon: "🌧️"
+        },
+        80: {
+          description: "Chubascos ligeros",
+          icon: "🌦️"
+        },
+        81: {
+          description: "Chubascos",
+          icon: "🌧️"
+        },
+        82: {
+          description: "Chubascos intensos",
+          icon: "⛈️"
+        },
+        95: {
+          description: "Tormenta eléctrica",
+          icon: "⛈️"
+        },
+        96: {
+          description: "Tormenta con granizo",
+          icon: "⛈️"
+        },
+        99: {
+          description: "Tormenta intensa",
+          icon: "⛈️"
+        }
+      };
+
+      return weatherCodes[code] || {
+        description: "Condición variable",
+        icon: "🌤️"
+      };
+    }
+
+    function buildWeatherUrl(location) {
+      const parameters = new URLSearchParams({
+        latitude: location.latitude,
+        longitude: location.longitude,
+
+        current: [
+          "temperature_2m",
+          "apparent_temperature",
+          "relative_humidity_2m",
+          "weather_code",
+          "is_day"
+        ].join(","),
+
+        daily: [
+          "weather_code",
+          "temperature_2m_max",
+          "temperature_2m_min",
+          "precipitation_probability_max"
+        ].join(","),
+
+        temperature_unit: "celsius",
+        timezone: TIME_ZONE,
+        forecast_days: "2"
+      });
+
+      return (
+        "https://api.open-meteo.com/v1/forecast?" +
+        parameters.toString()
+      );
+    }
+
+    async function requestLocationWeather(
+      location
+    ) {
+      const response = await fetch(
+        buildWeatherUrl(location)
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error meteorológico: ${response.status}`
+        );
+      }
+
+      const result = await response.json();
+
+      if (!result.current || !result.daily) {
+        throw new Error(
+          "Respuesta meteorológica incompleta."
+        );
+      }
+
+      const currentCondition =
+        getWeatherInformation(
+          result.current.weather_code,
+          result.current.is_day === 1
+        );
+
+      return {
+        city: location.name,
+
+        temperature: Math.round(
+          result.current.temperature_2m
+        ),
+
+        apparentTemperature: Math.round(
+          result.current.apparent_temperature
+        ),
+
+        humidity:
+          result.current.relative_humidity_2m,
+
+        maximum: Math.round(
+          result.daily.temperature_2m_max[0]
+        ),
+
+        minimum: Math.round(
+          result.daily.temperature_2m_min[0]
+        ),
+
+        description:
+          currentCondition.description,
+
+        icon:
+          currentCondition.icon,
+
+        tomorrowMaximum: Math.round(
+          result.daily.temperature_2m_max[1]
+        ),
+
+        tomorrowRain:
+          result.daily
+            .precipitation_probability_max[1] ?? 0
+      };
+    }
+
+    async function loadWeather() {
+      try {
+        const results = await Promise.all(
+          locations.map(
+            requestLocationWeather
+          )
+        );
+
+        weatherData = results;
+
+        localStorage.setItem(
+          WEATHER_CACHE_KEY,
+          JSON.stringify({
+            savedAt: Date.now(),
+            data: results
+          })
+        );
+
+        renderWeather(activeWeatherIndex);
+      } catch (error) {
+        console.error(
+          "No fue posible actualizar el clima:",
+          error
+        );
+
+        loadCachedWeather();
+      }
+    }
+
+    function loadCachedWeather() {
+      try {
+        const stored =
+          localStorage.getItem(
+            WEATHER_CACHE_KEY
+          );
+
+        if (!stored) {
+          showWeatherError();
+          return;
+        }
+
+        const parsed = JSON.parse(stored);
+
+        if (
+          !Array.isArray(parsed.data) ||
+          parsed.data.length === 0
+        ) {
+          showWeatherError();
+          return;
+        }
+
+        weatherData = parsed.data;
+        renderWeather(activeWeatherIndex);
+      } catch (error) {
+        console.error(
+          "No fue posible leer el clima guardado:",
+          error
+        );
+
+        showWeatherError();
+      }
+    }
+
+    function showWeatherError() {
+      elements.weatherIcon.textContent = "☁️";
+
+      elements.weatherTemperature.textContent =
+        "--°";
+
+      elements.weatherCity.textContent =
+        "Zona conurbada";
+
+      elements.weatherDescription.textContent =
+        "Clima temporalmente no disponible";
+
+      elements.weatherForecast.textContent =
+        "Esperando conexión";
+    }
+
+    function renderWeather(index) {
+      const weather = weatherData[index];
+
+      if (!weather) {
+        return;
+      }
+
+      elements.weatherIcon.textContent =
+        weather.icon;
+
+      elements.weatherTemperature.textContent =
+        `${weather.temperature}°`;
+
+      elements.weatherCity.textContent =
+        weather.city;
+
+      elements.weatherDescription.textContent =
+        `${weather.description} · ` +
+        `Sensación ${weather.apparentTemperature}° · ` +
+        `Humedad ${weather.humidity}%`;
+
+      elements.weatherForecast.textContent =
+        `Máx. ${weather.maximum}° · ` +
+        `Mín. ${weather.minimum}° · ` +
+        `Mañana ${weather.tomorrowMaximum}° · ` +
+        `Lluvia ${weather.tomorrowRain}%`;
+
+      elements.indicators.forEach(
+        (indicator, indicatorIndex) => {
+          indicator.classList.toggle(
+            "active",
+            indicatorIndex === index
+          );
+        }
+      );
+    }
+
+    function rotateWeather() {
+      if (!weatherData.length) {
+        return;
+      }
+
+      activeWeatherIndex =
+        (activeWeatherIndex + 1) %
+        weatherData.length;
+
+      renderWeather(activeWeatherIndex);
+    }
+
+    updateDateTime();
+    loadWeather();
+
+    setInterval(updateDateTime, 1000);
+    setInterval(rotateWeather, 10000);
+    setInterval(loadWeather, 15 * 60 * 1000);
+  </script>
   <script type="module" src="assets/display.js"></script>
 </body>
 </html>
