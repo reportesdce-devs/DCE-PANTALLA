@@ -379,8 +379,8 @@ $("auth-form").addEventListener("submit", async (event) => {
     if (authMode === "signup") {
       const { data, error } = await supabase.auth.signUp(credentials);
       if (error) throw error;
-      if (data.session) await enterDashboard(data.user);
-      else message("Cuenta creada. Revisa tu correo para confirmarla y después solicita autorización.", true, "auth-message");
+      if (data.session) await supabase.auth.signOut();
+      message("Cuenta creada correctamente. Revisa tu correo si se solicita confirmación y avísanos para habilitar tu acceso.", true, "auth-message");
     } else {
       const { data, error } = await supabase.auth.signInWithPassword(credentials);
       if (error) throw error;
