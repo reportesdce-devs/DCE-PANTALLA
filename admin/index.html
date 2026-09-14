@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07142f">
+  <title>Panel DCE</title>
+  <link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <section class="auth-card" id="auth-view">
+      <a class="back-link" href="../">← Volver al display</a>
+      <img src="../Logos DCE (1).png" alt="DCE Ingenierías">
+      <span class="eyebrow">Administración</span>
+      <h1>Contenido del display</h1>
+      <p>Inicia sesión con una cuenta autorizada para publicar avisos, eventos y evidencias.</p>
+      <form id="auth-form">
+        <label>Correo institucional<input id="auth-email" type="email" autocomplete="email" required placeholder="nombre@iest.edu.mx"></label>
+        <label>Contraseña<input id="auth-password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo 8 caracteres"></label>
+        <button class="primary" type="submit" id="auth-submit">Iniciar sesión</button>
+      </form>
+      <button class="text-button" type="button" id="auth-toggle">¿Primera vez? Crear cuenta</button>
+      <p class="auth-note" id="auth-note">El acceso al panel requiere autorización administrativa.</p>
+      <div class="message" id="auth-message" hidden></div>
+    </section>
+
+    <section class="dashboard" id="dashboard" hidden>
+      <header class="topbar">
+        <div class="brand"><img src="../Logos DCE (1).png" alt="DCE"><div><strong>Panel DCE</strong><span id="admin-identity"></span></div></div>
+        <div class="top-actions"><a href="../" target="_blank" rel="noopener">Ver display ↗</a><button class="secondary" id="sign-out" type="button">Cerrar sesión</button></div>
+      </header>
+
+      <section class="welcome">
+        <div><span class="eyebrow">Centro de control</span><h1>Mantén informada a la comunidad.</h1><p>Los cambios publicados aparecerán automáticamente en la pantalla.</p></div>
+        <div class="metrics" id="metrics"></div>
+      </section>
+
+      <nav class="tabs" aria-label="Secciones del panel">
+        <button class="active" data-tab="events">Eventos</button>
+        <button data-tab="announcements">Avisos</button>
+        <button data-tab="media">Evidencias</button>
+        <button data-tab="careers">Carreras</button>
+        <button data-tab="promotions">Promoción</button>
+        <button data-tab="settings">Pantalla</button>
+      </nav>
+
+      <div class="message global-message" id="global-message" hidden></div>
+
+      <section class="tab-panel active" data-panel="events">
+        <div class="section-title"><div><span class="eyebrow">Agenda</span><h2>Eventos</h2></div><button class="primary" data-open="event-dialog">+ Nuevo evento</button></div>
+        <div class="data-list" id="events-list"></div>
+      </section>
+
+      <section class="tab-panel" data-panel="announcements">
+        <div class="section-title"><div><span class="eyebrow">Comunicación inmediata</span><h2>Avisos</h2></div><button class="primary" data-open="announcement-dialog">+ Nuevo aviso</button></div>
+        <div class="data-list" id="announcements-list"></div>
+      </section>
+
+      <section class="tab-panel" data-panel="media">
+        <div class="section-title"><div><span class="eyebrow">Fotos y video</span><h2>Evidencias de eventos</h2></div></div>
+        <form class="editor-card media-form" id="media-form">
+          <label>Evento<select id="media-event" required></select></label>
+          <label>Archivo<input id="media-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm" required></label>
+          <label>Leyenda<input id="media-caption" maxlength="160" placeholder="Describe el momento"></label>
+          <button class="primary" type="submit">Subir evidencia</button>
+        </form>
+        <p class="field-help">Máximo 50 MB. Formatos: JPG, PNG, WebP, GIF, MP4 o WebM.</p>
+        <div class="media-grid" id="media-list"></div>
+      </section>
+
+      <section class="tab-panel" data-panel="careers">
+        <div class="section-title"><div><span class="eyebrow">Oferta académica</span><h2>Carreras</h2></div><button class="primary" data-open="career-dialog">+ Nueva carrera</button></div>
+        <div class="data-list" id="careers-list"></div>
+      </section>
+
+      <section class="tab-panel" data-panel="promotions">
+        <div class="section-title"><div><span class="eyebrow">Atracción de talento</span><h2>Promoción para preparatoria</h2></div><button class="primary" data-open="promotion-dialog">+ Nueva promoción</button></div>
+        <div class="data-list" id="promotions-list"></div>
+      </section>
+
+      <section class="tab-panel" data-panel="settings">
+        <div class="section-title"><div><span class="eyebrow">Comportamiento</span><h2>Configuración del display</h2></div></div>
+        <form class="editor-card settings-form" id="settings-form">
+          <label>Mensaje del pie<input id="settings-footer" maxlength="180" required></label>
+          <label>Título para aspirantes<input id="settings-recruitment-title" maxlength="100" required></label>
+          <label class="wide">Texto para aspirantes<textarea id="settings-recruitment-body" rows="3" maxlength="300" required></textarea></label>
+          <label>Texto del enlace<input id="settings-recruitment-cta" maxlength="50"></label>
+          <label>URL del enlace<input id="settings-recruitment-url" type="url" placeholder="https://..."></label>
+          <label>Rotación de avisos (segundos)<input id="settings-rotation" type="number" min="5" max="120" required></label>
+          <label>Actualización de datos (segundos)<input id="settings-refresh" type="number" min="15" max="3600" required></label>
+          <label class="check"><input id="settings-weather" type="checkbox"> Mostrar clima</label>
+          <div class="form-actions wide"><button class="primary" type="submit">Guardar configuración</button></div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="event-dialog">
+    <form class="dialog-form" id="event-form">
+      <div class="dialog-heading"><div><span class="eyebrow">Agenda DCE</span><h2 id="event-dialog-title">Nuevo evento</h2></div><button class="icon-button" type="button" data-close aria-label="Cerrar">×</button></div>
+      <input id="event-id" type="hidden">
+      <label class="wide">Título<input id="event-title" maxlength="140" required></label>
+      <label class="wide">Resumen<textarea id="event-summary" rows="2" maxlength="280"></textarea></label>
+      <label>Inicio<input id="event-start" type="datetime-local" required></label>
+      <label>Fin<input id="event-end" type="datetime-local"></label>
+      <label class="wide">Lugar<input id="event-location" maxlength="140"></label>
+      <label>Público<select id="event-audience"><option value="todos">Todos</option><option value="ingenieria">Ingeniería</option><option value="preparatoria">Preparatoria</option></select></label>
+      <label>Estado<select id="event-status"><option value="draft">Borrador</option><option value="scheduled">Programado</option><option value="published">Publicado</option><option value="archived">Archivado</option></select></label>
+      <label>Orden<input id="event-order" type="number" value="0"></label>
+      <label class="check"><input id="event-featured" type="checkbox"> Evento destacado</label>
+      <label>Texto del botón<input id="event-cta-label" maxlength="50"></label>
+      <label>URL del botón<input id="event-cta-url" type="url" placeholder="https://..."></label>
+      <div class="form-actions wide"><button class="secondary" type="button" data-close>Cancelar</button><button class="primary" type="submit">Guardar evento</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="announcement-dialog">
+    <form class="dialog-form" id="announcement-form">
+      <div class="dialog-heading"><div><span class="eyebrow">Aviso</span><h2 id="announcement-dialog-title">Nuevo aviso</h2></div><button class="icon-button" type="button" data-close>×</button></div>
+      <input id="announcement-id" type="hidden">
+      <label>Título<input id="announcement-title" maxlength="80" required></label>
+      <label>Prioridad<select id="announcement-priority"><option value="normal">Normal</option><option value="important">Importante</option><option value="urgent">Urgente</option></select></label>
+      <label class="wide">Mensaje<textarea id="announcement-body" rows="3" maxlength="300" required></textarea></label>
+      <label>Inicio<input id="announcement-start" type="datetime-local" required></label>
+      <label>Fin<input id="announcement-end" type="datetime-local"></label>
+      <label>Orden<input id="announcement-order" type="number" value="0"></label>
+      <label class="check"><input id="announcement-active" type="checkbox" checked> Aviso activo</label>
+      <div class="form-actions wide"><button class="secondary" type="button" data-close>Cancelar</button><button class="primary" type="submit">Guardar aviso</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="career-dialog">
+    <form class="dialog-form" id="career-form">
+      <div class="dialog-heading"><div><span class="eyebrow">Oferta académica</span><h2>Nueva carrera</h2></div><button class="icon-button" type="button" data-close>×</button></div>
+      <input id="career-id" type="hidden">
+      <label>Nombre completo<input id="career-name" required maxlength="160"></label>
+      <label>Nombre corto<input id="career-short" maxlength="80"></label>
+      <label class="wide">Descripción<textarea id="career-description" rows="3" maxlength="260"></textarea></label>
+      <label>Ícono<input id="career-icon" maxlength="8" placeholder="◆"></label>
+      <label>Color<input id="career-accent" type="color" value="#ff5a1f"></label>
+      <label>Orden<input id="career-order" type="number" value="0"></label>
+      <label class="check"><input id="career-active" type="checkbox" checked> Visible</label>
+      <div class="form-actions wide"><button class="secondary" type="button" data-close>Cancelar</button><button class="primary" type="submit">Guardar carrera</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="promotion-dialog">
+    <form class="dialog-form" id="promotion-form">
+      <div class="dialog-heading"><div><span class="eyebrow">Promoción</span><h2>Nueva promoción</h2></div><button class="icon-button" type="button" data-close>×</button></div>
+      <input id="promotion-id" type="hidden">
+      <label class="wide">Título<input id="promotion-title" required maxlength="120"></label>
+      <label class="wide">Mensaje<textarea id="promotion-body" rows="3" maxlength="300"></textarea></label>
+      <label>Texto del enlace<input id="promotion-cta-label" maxlength="50"></label>
+      <label>URL<input id="promotion-cta-url" type="url" placeholder="https://..."></label>
+      <label>Orden<input id="promotion-order" type="number" value="0"></label>
+      <label class="check"><input id="promotion-active" type="checkbox" checked> Visible</label>
+      <div class="form-actions wide"><button class="secondary" type="button" data-close>Cancelar</button><button class="primary" type="submit">Guardar promoción</button></div>
+    </form>
+  </dialog>
+
+  <script type="module" src="../assets/admin.js"></script>
+</body>
+</html>

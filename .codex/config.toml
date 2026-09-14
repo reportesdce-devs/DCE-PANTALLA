@@ -1,0 +1,18 @@
+[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp?project_ref=zruztkzddsyskzqfiicv&features=docs%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cstorage"
+scopes = [
+  "organizations:read",
+  "projects:read",
+  "database:read",
+  "database:write",
+  "analytics:read",
+  "edge_functions:read",
+  "edge_functions:write",
+  "environment:read",
+  "environment:write",
+  "storage:read",
+  "storage:write",
+]
+enabled = true
+required = false
+default_tools_approval_mode = "writes"
