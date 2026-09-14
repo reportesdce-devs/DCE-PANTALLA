@@ -13,14 +13,17 @@
       <a class="back-link" href="../">← Volver al display</a>
       <img src="../Logos DCE (1).png" alt="DCE Ingenierías">
       <span class="eyebrow">Administración</span>
-      <h1>Contenido del display</h1>
-      <p>Inicia sesión con una cuenta autorizada para publicar avisos, eventos y evidencias.</p>
+      <h1 id="auth-title">Contenido del display</h1>
+      <p id="auth-description">Inicia sesión con una cuenta autorizada para publicar avisos, eventos y evidencias.</p>
+      <div class="auth-switch" role="tablist" aria-label="Tipo de acceso">
+        <button class="active" type="button" role="tab" aria-selected="true" data-auth-mode="signin">Iniciar sesión</button>
+        <button type="button" role="tab" aria-selected="false" data-auth-mode="signup">Crear cuenta</button>
+      </div>
       <form id="auth-form">
         <label>Correo institucional<input id="auth-email" type="email" autocomplete="email" required placeholder="nombre@iest.edu.mx"></label>
         <label>Contraseña<input id="auth-password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo 8 caracteres"></label>
         <button class="primary" type="submit" id="auth-submit">Iniciar sesión</button>
       </form>
-      <button class="text-button" type="button" id="auth-toggle">¿Primera vez? Crear cuenta</button>
       <p class="auth-note" id="auth-note">El acceso al panel requiere autorización administrativa.</p>
       <div class="message" id="auth-message" hidden></div>
     </section>

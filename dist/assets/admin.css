@@ -15,10 +15,12 @@ input,select,textarea { width:100%; padding:12px 14px; border:1px solid var(--li
 input:focus,select:focus,textarea:focus { border-color:var(--orange); box-shadow:0 0 0 3px rgba(255,90,31,.12); }
 textarea { resize:vertical; }
 .auth-card form { display:grid; gap:16px; margin-top:26px; }
+.auth-switch { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-top:24px; padding:5px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.035); }
+.auth-switch button { color:var(--muted); background:transparent; }
+.auth-switch button.active { color:white; background:#183466; box-shadow:0 5px 16px rgba(0,0,0,.2); }
 button,.top-actions a { display:inline-flex; justify-content:center; align-items:center; min-height:42px; padding:10px 16px; border:0; border-radius:10px; cursor:pointer; font-weight:800; text-decoration:none; }
 .primary { color:white; background:var(--orange); }
 .secondary,.top-actions a { color:white; border:1px solid var(--line); background:rgba(255,255,255,.055); }
-.text-button { width:100%; margin-top:10px; color:#cbd5e7; background:transparent; font-size:.82rem; }
 .auth-note { margin-bottom:0; font-size:.74rem; text-align:center; }
 .message { margin-top:15px; padding:11px 13px; border:1px solid rgba(255,90,31,.4); border-radius:10px; background:rgba(255,90,31,.1); color:#ffd7c8; font-size:.82rem; }
 .message.success { border-color:rgba(48,204,124,.45); background:rgba(48,204,124,.1); color:#bdf0d4; }

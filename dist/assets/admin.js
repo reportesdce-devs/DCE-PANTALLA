@@ -44,7 +44,7 @@ async function requireAdmin(user) {
 async function bootSession() {
   if (!isSupabaseConfigured) {
     $("auth-submit").disabled = true;
-    $("auth-toggle").disabled = true;
+    document.querySelectorAll("[data-auth-mode]").forEach((button) => { button.disabled = true; });
     message("Falta configurar la clave pública de Supabase. El display permanece disponible en modo demostración.", false, "auth-message");
     return;
   }
@@ -353,12 +353,21 @@ document.querySelectorAll("[data-open]").forEach((button) => button.addEventList
 }));
 document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", closeDialogs));
 
-$("auth-toggle").addEventListener("click", () => {
-  authMode = authMode === "signin" ? "signup" : "signin";
+document.querySelectorAll("[data-auth-mode]").forEach((modeButton) => modeButton.addEventListener("click", () => {
+  authMode = modeButton.dataset.authMode;
+  document.querySelectorAll("[data-auth-mode]").forEach((button) => {
+    const active = button === modeButton;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  $("auth-title").textContent = authMode === "signin" ? "Contenido del display" : "Crea tu cuenta";
+  $("auth-description").textContent = authMode === "signin"
+    ? "Inicia sesión con una cuenta autorizada para publicar avisos, eventos y evidencias."
+    : "Registra tu correo institucional. Después habilitaremos tu acceso administrativo.";
   $("auth-submit").textContent = authMode === "signin" ? "Iniciar sesión" : "Crear cuenta";
-  $("auth-toggle").textContent = authMode === "signin" ? "¿Primera vez? Crear cuenta" : "Ya tengo cuenta";
   $("auth-note").textContent = authMode === "signin" ? "El acceso al panel requiere autorización administrativa." : "Después de registrarte, un administrador debe habilitar tu cuenta.";
   $("auth-message").hidden = true;
+  $("auth-email").focus();
 }));
 
 $("auth-form").addEventListener("submit", async (event) => {
