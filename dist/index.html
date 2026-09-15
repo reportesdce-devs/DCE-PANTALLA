@@ -1668,8 +1668,12 @@
     .chem-bubble.b2 { animation-delay: .7s; }
     .chem-bubble.b3 { animation-delay: 1.4s; }
     .atom { transform-origin: 190px 54px; animation: dce-rotate 8s linear infinite; }
-    .robot-arm { transform-box: fill-box; transform-origin: 21% 88%; animation: dce-arm 2.8s ease-in-out infinite alternate; }
-    .robot-box { animation: dce-lift 2.8s ease-in-out infinite alternate; }
+    .robot-shoulder { transform-box: view-box; transform-origin: 68px 82px; animation: dce-robot-shoulder 3.2s ease-in-out infinite alternate; }
+    .robot-forearm { transform-box: view-box; transform-origin: 112px 45px; animation: dce-robot-elbow 3.2s ease-in-out infinite alternate; }
+    .robot-claw-left { transform-box: view-box; transform-origin: 166px 69px; animation: dce-claw-left 1.6s ease-in-out infinite alternate; }
+    .robot-claw-right { transform-box: view-box; transform-origin: 166px 69px; animation: dce-claw-right 1.6s ease-in-out infinite alternate; }
+    .robot-piece { animation: dce-piece 3.2s ease-in-out infinite alternate; }
+    .robot-signal { stroke-dasharray: 5 6; animation: dce-dash 1.3s linear infinite; }
     .parcel { animation: dce-conveyor 3.6s linear infinite; }
     .parcel.p2 { animation-delay: -1.8s; }
     .bar { transform-box: fill-box; transform-origin: center bottom; animation: dce-bar 1.8s ease-in-out infinite alternate; }
@@ -1722,8 +1726,11 @@
     @keyframes dce-morph { to { border-radius: 42% 58% 61% 39% / 58% 42% 58% 42%; transform: rotate(7deg) scale(1.05); } }
     @keyframes dce-rotate { to { transform: rotate(360deg); } }
     @keyframes dce-bubble { 0% { opacity: 0; transform: translateY(10px) scale(.45); } 35% { opacity: 1; } 100% { opacity: 0; transform: translateY(-25px) scale(1.15); } }
-    @keyframes dce-arm { to { transform: rotate(-8deg); } }
-    @keyframes dce-lift { to { transform: translateY(-8px); } }
+    @keyframes dce-robot-shoulder { to { transform: rotate(-5deg); } }
+    @keyframes dce-robot-elbow { to { transform: rotate(10deg); } }
+    @keyframes dce-claw-left { to { transform: rotate(8deg); } }
+    @keyframes dce-claw-right { to { transform: rotate(-8deg); } }
+    @keyframes dce-piece { to { transform: translateY(-7px); } }
     @keyframes dce-conveyor { from { transform: translateX(-65px); } to { transform: translateX(210px); } }
     @keyframes dce-bar { to { transform: scaleY(.5); } }
     @keyframes dce-dash { to { stroke-dashoffset: -22; } }
