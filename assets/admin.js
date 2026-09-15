@@ -375,7 +375,9 @@ $("auth-form").addEventListener("submit", async (event) => {
   const button = $("auth-submit");
   button.disabled = true;
   try {
-    const credentials = { email: $("auth-email").value.trim(), password: $("auth-password").value };
+    const identity = $("auth-email").value.trim().toLowerCase();
+    const email = identity === "abarron" ? "alexandro.barron@iest.edu.mx" : identity;
+    const credentials = { email, password: $("auth-password").value };
     if (authMode === "signup") {
       const { data, error } = await supabase.auth.signUp(credentials);
       if (error) throw error;
