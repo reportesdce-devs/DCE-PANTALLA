@@ -110,7 +110,9 @@ function showFeaturedSlide(index, animate = true) {
   title.querySelector("span").textContent = first;
   title.querySelector("strong").textContent = accent;
   byId("featured-summary").textContent = event.summary || "Ideas que transforman";
-  byId("featured-description").textContent = event.description || "Conferencias · Talleres · Networking · Tecnología";
+  const description = byId("featured-description");
+  description.textContent = event.description || "";
+  description.hidden = !event.description;
 
   const start = new Date(event.starts_at);
   const end = event.ends_at ? new Date(event.ends_at) : null;

@@ -258,6 +258,7 @@ function editEvent(item = null) {
   $("event-dialog-title").textContent = item ? "Editar evento" : "Nuevo evento";
   $("event-title").value = item?.title || "";
   $("event-summary").value = item?.summary || "";
+  $("event-description").value = item?.description || "";
   $("event-start").value = toLocalInput(item?.starts_at || new Date(Date.now() + 86400000));
   $("event-end").value = toLocalInput(item?.ends_at);
   $("event-location").value = item?.location || "";
@@ -402,6 +403,7 @@ $("event-form").addEventListener("submit", async (event) => {
     title,
     slug: id ? db.events.find((item) => item.id === id).slug : `${slugify(title)}-${Date.now().toString(36)}`,
     summary: $("event-summary").value.trim() || null,
+    description: $("event-description").value.trim() || null,
     starts_at: fromLocalInput($("event-start").value),
     ends_at: fromLocalInput($("event-end").value),
     location: $("event-location").value.trim() || null,
