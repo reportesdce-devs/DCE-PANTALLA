@@ -7,6 +7,8 @@ Pantalla informativa y panel de administración para la División de Ciencias Ex
 - `/`: display público responsive para pantallas, tabletas y móviles.
 - `/admin/`: panel protegido para eventos, avisos, evidencias, carreras, promoción y configuración.
 
+Publicación en GitHub Pages: `https://reportesdce-devs.github.io/DCE-PANTALLA/`
+
 ## Conexión a Supabase
 
 El proyecto apunta a `https://zruztkzddsyskzqfiicv.supabase.co` y utiliza su clave **Publishable** desde `assets/supabase.js`.
