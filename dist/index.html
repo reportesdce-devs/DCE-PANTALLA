@@ -1340,6 +1340,19 @@
       transition: opacity 500ms ease;
     }
 
+    .hero-media-frame {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background-position: center 38%;
+      background-size: cover;
+      transition: opacity 700ms ease;
+    }
+
+    .hero-media-frame.active {
+      opacity: 1;
+    }
+
     .hero-media.active {
       opacity: 1;
     }
@@ -1366,10 +1379,90 @@
       content: "";
     }
 
-    .hero-media video {
+    .hero-media-frame video {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .hero.slide-enter .hero-content {
+      animation: hero-copy-in 560ms ease both;
+    }
+
+    @keyframes hero-copy-in {
+      from {
+        opacity: .72;
+        transform: translateY(calc(var(--u) * .3));
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .featured-carousel {
+      position: absolute;
+      top: calc(var(--u) * 8.1);
+      right: calc(var(--u) * 2);
+      z-index: 3;
+      display: grid;
+      grid-template-columns: auto auto;
+      gap: calc(var(--u) * .28) calc(var(--u) * .65);
+      min-width: calc(var(--u) * 10.5);
+      padding: calc(var(--u) * .62) calc(var(--u) * .78);
+      border: 1px solid rgba(255,255,255,.38);
+      border-radius: calc(var(--u) * .75);
+      color: #fff;
+      background: rgba(7,20,47,.66);
+      box-shadow: 0 calc(var(--u) * .45) calc(var(--u) * 1.2) rgba(7,20,47,.14);
+      backdrop-filter: blur(10px);
+    }
+
+    .featured-carousel[hidden] {
+      display: none;
+    }
+
+    .featured-carousel span,
+    .featured-carousel strong {
+      font-size: calc(var(--u) * .68);
+      line-height: 1;
+    }
+
+    .featured-carousel span {
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .featured-carousel strong {
+      justify-self: end;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .featured-progress {
+      grid-column: 1 / -1;
+      height: 3px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.28);
+    }
+
+    .featured-progress b {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--orange);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .hero.carousel-running .featured-progress b {
+      animation: featured-progress var(--carousel-duration, 10s) linear forwards;
+    }
+
+    @keyframes featured-progress {
+      to { transform: scaleX(1); }
     }
 
     .hero-button {
@@ -1454,6 +1547,18 @@
       .announcement-chip b,
       .announcement-chip span {
         font-size: .7rem;
+      }
+
+      .featured-carousel {
+        top: 5.4rem;
+        right: 1rem;
+        min-width: 8.75rem;
+        padding: .55rem .65rem;
+      }
+
+      .featured-carousel span,
+      .featured-carousel strong {
+        font-size: .68rem;
       }
     }
   </style>
@@ -1555,6 +1660,12 @@
           <span>Personas</span>
           <span>Tecnología</span>
           <span>Un mundo mejor</span>
+        </div>
+
+        <div class="featured-carousel" id="featured-carousel" aria-label="Progreso del carrusel" hidden>
+          <span>Destacados</span>
+          <strong id="featured-position">01 / 01</strong>
+          <i class="featured-progress" aria-hidden="true"><b></b></i>
         </div>
 
         <div class="announcement-chip" id="announcement-bar" hidden>

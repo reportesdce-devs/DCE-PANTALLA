@@ -22,7 +22,12 @@ const fallback = {
 const state = structuredClone(fallback);
 const byId = (id) => document.getElementById(id);
 let announcementTimer;
+let featuredTimer;
+let featuredMediaTimer;
+let featuredIndex = 0;
+let featuredSlides = [];
 let refreshTimer;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function format(value, options) {
   return new Intl.DateTimeFormat(locale, { timeZone: "America/Monterrey", ...options }).format(new Date(value));
@@ -41,16 +46,65 @@ function splitLocation(location = "IEST Anáhuac") {
   return [words[0], words.slice(1).join(" ")];
 }
 
-function featuredEvent() {
-  return [...state.events].sort((a, b) =>
-    Number(b.is_featured) - Number(a.is_featured) ||
-    Number(a.display_order || 0) - Number(b.display_order || 0) ||
-    new Date(a.starts_at) - new Date(b.starts_at)
-  )[0] || fallback.events[0];
+function featuredEvents() {
+  const ordered = [...state.events]
+    .filter((event) => ["published", "archived"].includes(event.status))
+    .sort((a, b) =>
+      Number(a.display_order || 0) - Number(b.display_order || 0) ||
+      new Date(a.starts_at) - new Date(b.starts_at)
+    );
+  const selected = ordered.filter((event) => event.is_featured);
+  return selected.length ? selected : [ordered[0] || fallback.events[0]];
 }
 
-function renderFeatured() {
-  const event = featuredEvent();
+function buildFeaturedSlides() {
+  return featuredEvents().flatMap((event) => {
+    const media = state.media.filter((item) => item.event_id === event.id && item.public_url);
+    if (media.length) return media.map((item) => ({ event, media: item }));
+    if (event.cover_url) return [{ event, media: { media_type: "image", public_url: event.cover_url } }];
+    return [{ event, media: null }];
+  }).slice(0, 12);
+}
+
+function renderFeaturedMedia(media) {
+  const holder = byId("hero-media");
+  clearTimeout(featuredMediaTimer);
+  const previous = [...holder.querySelectorAll(".hero-media-frame")];
+  if (!media?.public_url) {
+    holder.classList.remove("active");
+    featuredMediaTimer = setTimeout(() => holder.replaceChildren(), 720);
+    return;
+  }
+
+  const frame = document.createElement("div");
+  frame.className = "hero-media-frame";
+  if (media.media_type === "video") {
+    const video = document.createElement("video");
+    video.src = media.public_url;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+    video.disablePictureInPicture = true;
+    frame.append(video);
+  } else {
+    frame.style.backgroundImage = `url("${media.public_url.replaceAll('"', "%22")}")`;
+  }
+
+  holder.append(frame);
+  holder.classList.add("active");
+  requestAnimationFrame(() => {
+    previous.forEach((item) => item.classList.remove("active"));
+    frame.classList.add("active");
+  });
+  featuredMediaTimer = setTimeout(() => previous.forEach((item) => item.remove()), 720);
+}
+
+function showFeaturedSlide(index, animate = true) {
+  if (!featuredSlides.length) return;
+  featuredIndex = (index + featuredSlides.length) % featuredSlides.length;
+  const { event, media } = featuredSlides[featuredIndex];
   const [first, accent] = splitTitle(event.title);
   const title = byId("featured-title");
   title.querySelector("span").textContent = first;
@@ -77,22 +131,34 @@ function renderFeatured() {
     cta.removeAttribute("href");
   }
 
-  const media = state.media.find((item) => item.event_id === event.id) || (event.cover_url ? { media_type: "image", public_url: event.cover_url } : null);
-  const holder = byId("hero-media");
-  holder.replaceChildren();
-  holder.style.backgroundImage = "";
-  holder.classList.toggle("active", Boolean(media?.public_url));
-  if (media?.media_type === "video") {
-    const video = document.createElement("video");
-    video.src = media.public_url;
-    video.autoplay = true;
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    holder.append(video);
-  } else if (media?.public_url) {
-    holder.style.backgroundImage = `url("${media.public_url.replaceAll('"', "%22")}")`;
+  renderFeaturedMedia(media);
+  const hero = byId("featured-card");
+  hero.setAttribute("aria-label", `Evento destacado: ${event.title}`);
+  hero.style.setProperty("--carousel-duration", `${Math.max(5, Number(state.settings.rotation_seconds) || 10)}s`);
+  byId("featured-position").textContent = `${String(featuredIndex + 1).padStart(2, "0")} / ${String(featuredSlides.length).padStart(2, "0")}`;
+  byId("featured-carousel").hidden = featuredSlides.length < 2 || reducedMotion.matches;
+  hero.classList.remove("slide-enter", "carousel-running");
+  void hero.offsetWidth;
+  if (animate && !reducedMotion.matches) hero.classList.add("slide-enter");
+  if (featuredSlides.length > 1 && !document.hidden && !reducedMotion.matches) {
+    hero.classList.add("carousel-running");
   }
+}
+
+function scheduleFeaturedCarousel() {
+  clearInterval(featuredTimer);
+  if (featuredSlides.length < 2 || document.hidden || reducedMotion.matches) return;
+  const seconds = Math.max(5, Number(state.settings.rotation_seconds) || 10);
+  featuredTimer = setInterval(() => showFeaturedSlide(featuredIndex + 1), seconds * 1000);
+}
+
+function renderFeatured() {
+  const currentKey = featuredSlides[featuredIndex]?.event.id;
+  featuredSlides = buildFeaturedSlides();
+  const retainedIndex = currentKey ? featuredSlides.findIndex((slide) => slide.event.id === currentKey) : -1;
+  featuredIndex = retainedIndex >= 0 ? retainedIndex : 0;
+  showFeaturedSlide(featuredIndex, false);
+  scheduleFeaturedCarousel();
 }
 
 function buildEventCard(event) {
@@ -212,6 +278,24 @@ async function loadData() {
 }
 
 loadData();
+
+document.addEventListener("visibilitychange", () => {
+  const video = byId("hero-media").querySelector("video");
+  if (document.hidden) {
+    clearInterval(featuredTimer);
+    video?.pause();
+    byId("featured-card").classList.remove("carousel-running");
+    return;
+  }
+  video?.play().catch(() => {});
+  showFeaturedSlide(featuredIndex, false);
+  scheduleFeaturedCarousel();
+});
+
+reducedMotion.addEventListener?.("change", () => {
+  showFeaturedSlide(featuredIndex, false);
+  scheduleFeaturedCarousel();
+});
 
 if (supabase) {
   supabase.channel("dce-original-display").on("postgres_changes", { event: "*", schema: "public" }, loadData).subscribe();
