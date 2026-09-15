@@ -22,6 +22,8 @@ const fallback = {
 const state = structuredClone(fallback);
 const byId = (id) => document.getElementById(id);
 let announcementTimer;
+let careerTimer;
+let careerIndex = 0;
 let featuredTimer;
 let featuredMediaTimer;
 let featuredIndex = 0;
@@ -208,23 +210,106 @@ function renderEvents() {
   events.forEach((event) => section.append(buildEventCard(event)));
 }
 
+function careerType(career) {
+  const name = `${career.name || ""} ${career.short_name || ""}`.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  if (name.includes("quim")) return "chemistry";
+  if (name.includes("mecatron")) return "mechatronics";
+  if (name.includes("industrial")) return "industrial";
+  return "systems";
+}
+
+function careerPresentation(type) {
+  return {
+    chemistry: { kicker: "Química", headline: ["Transforma", "la materia."], description: "Ciencia aplicada a procesos, energía y soluciones sostenibles.", tags: ["Procesos", "Materiales", "Energía"], accent: "#10a66d", wash: "#e6f8f0" },
+    mechatronics: { kicker: "Mecatrónica", headline: ["Ideas que", "se mueven."], description: "Robótica, electrónica y programación trabajando como un solo sistema.", tags: ["Robótica", "Control", "Automatización"], accent: "#7440e8", wash: "#eee8ff" },
+    industrial: { kicker: "Industrial", headline: ["Optimiza", "cada proceso."], description: "Personas, tecnología y recursos conectados con mayor eficiencia.", tags: ["Calidad", "Logística", "Liderazgo"], accent: "#eca700", wash: "#fff3d2" },
+    systems: { kicker: "Sistemas", headline: ["Crea el", "mundo digital."], description: "Software, datos e inteligencia artificial convertidos en nuevos negocios.", tags: ["Software", "Datos e IA", "Negocios"], accent: "#ff4b23", wash: "#ffe9e2" },
+  }[type];
+}
+
+function careerArt(type) {
+  const art = {
+    chemistry: `<svg class="dce-art" viewBox="0 0 250 115"><path class="base" d="M45 14h42v10l-9 12v22l34 47H20l34-47V36l-9-12V14Z"/><path class="wash" d="M34 80c21-14 40 11 63-3l18 28H18l16-25Z"/><circle class="chem-bubble accent" cx="54" cy="84" r="5"/><circle class="chem-bubble b2 accent" cx="74" cy="89" r="3.5"/><circle class="chem-bubble b3 accent" cx="89" cy="80" r="6"/><g class="atom"><ellipse class="line" cx="190" cy="54" rx="49" ry="17"/><ellipse class="line" cx="190" cy="54" rx="49" ry="17" transform="rotate(60 190 54)"/><ellipse class="line" cx="190" cy="54" rx="49" ry="17" transform="rotate(120 190 54)"/><circle class="accent" cx="190" cy="54" r="8"/><circle class="accent" cx="239" cy="54" r="4"/></g></svg>`,
+    mechatronics: `<svg class="dce-art" viewBox="0 0 250 115"><path class="line" d="M16 103h218M37 103V87h49v16"/><g class="robot-arm"><rect class="base" x="47" y="83" width="46" height="20" rx="3"/><circle class="base" cx="70" cy="75" r="15"/><path class="stroke" d="m80 64 42-43 27 21-38 47"/><circle class="accent" cx="123" cy="22" r="10"/><path class="stroke" d="m136 32 36 14-7 19m0 0-12 12m12-12 11 11"/></g><g class="robot-box"><rect class="wash" x="145" y="77" width="41" height="26" rx="4"/><path class="line" d="M145 85h41m-20-8v26"/></g><circle class="line" cx="213" cy="34" r="19"/><path class="stroke" d="M213 23v12l9 6"/></svg>`,
+    industrial: `<svg class="dce-art" viewBox="0 0 250 115"><rect class="base" x="12" y="77" width="226" height="26" rx="4"/><path class="stroke" d="M14 85h221"/><circle class="line" cx="40" cy="102" r="8"/><circle class="line" cx="86" cy="102" r="8"/><circle class="line" cx="132" cy="102" r="8"/><circle class="line" cx="178" cy="102" r="8"/><g class="parcel"><rect class="accent" x="0" y="55" width="35" height="31" rx="3"/><path d="M0 65h35M17 55v31" stroke="white" stroke-width="2"/></g><g class="parcel p2"><rect class="accent" x="0" y="55" width="35" height="31" rx="3"/><path d="M0 65h35M17 55v31" stroke="white" stroke-width="2"/></g><rect class="base" x="158" y="9" width="78" height="52" rx="7"/><g transform="translate(173 18)"><rect class="bar accent" width="12" height="33" y="9" rx="2"/><rect class="bar b2 accent" width="12" height="42" x="19" rx="2"/><rect class="bar b3 accent" width="12" height="27" x="38" y="15" rx="2"/></g></svg>`,
+    systems: `<svg class="dce-art" viewBox="0 0 250 115"><rect class="base" x="18" y="12" width="164" height="84" rx="9"/><path class="line" d="M31 83h137M79 96v10m-25 0h74"/><path class="stroke code" d="m49 39-12 10 12 10m31-20 12 10-12 10M70 30 56 68"/><path class="line net" d="M117 33h27l19 17-19 20h-28"/><circle class="accent" cx="117" cy="33" r="5"/><circle class="accent" cx="163" cy="50" r="5"/><circle class="accent" cx="144" cy="70" r="5"/><circle class="packet accent" cx="191" cy="78" r="5"/><circle class="packet p2 accent" cx="207" cy="91" r="3.5"/><path class="line" d="M198 27h34m-34 13h26m-26 13h34"/></svg>`,
+  };
+  return art[type];
+}
+
+function showCareer(index) {
+  const root = byId("career-carousel");
+  const slides = [...root.querySelectorAll(".dce-slide")];
+  const dots = [...root.querySelectorAll(".dce-dot")];
+  if (!slides.length) return;
+  careerIndex = (index + slides.length) % slides.length;
+  byId("career-grid").style.transform = `translateX(-${careerIndex * 100}%)`;
+  slides.forEach((slide, slideIndex) => slide.classList.toggle("is-active", slideIndex === careerIndex));
+  dots.forEach((dot, dotIndex) => {
+    dot.classList.toggle("is-active", dotIndex === careerIndex);
+    if (dotIndex === careerIndex) dot.setAttribute("aria-current", "true");
+    else dot.removeAttribute("aria-current");
+  });
+  root.style.setProperty("--active", slides[careerIndex].style.getPropertyValue("--accent"));
+  clearTimeout(careerTimer);
+  if (slides.length > 1 && !document.hidden && !reducedMotion.matches) {
+    careerTimer = setTimeout(() => showCareer(careerIndex + 1), 4800);
+  }
+}
+
 function renderCareers() {
   const grid = byId("career-grid");
+  const nav = byId("career-nav");
+  const careers = state.careers.slice(0, 4);
   grid.replaceChildren();
-  state.careers.slice(0, 4).forEach((career, index) => {
-    const program = document.createElement("article");
-    program.className = `program ${["systems", "industrial", "mechatronics", "chemistry"][index]}`;
-    const icon = document.createElement("div");
-    icon.className = "program-icon";
-    icon.textContent = career.icon || "◆";
-    if (career.accent) icon.style.background = career.accent;
+  nav.replaceChildren();
+  careers.forEach((career, index) => {
+    const type = careerType(career);
+    const content = careerPresentation(type);
+    const slide = document.createElement("article");
+    slide.className = `dce-slide${index === 0 ? " is-active" : ""}`;
+    slide.style.setProperty("--accent", career.accent || content.accent);
+    slide.style.setProperty("--wash", content.wash);
+    slide.setAttribute("aria-label", career.name);
+
+    const copy = document.createElement("div");
+    copy.className = "dce-copy";
+    const kicker = document.createElement("div");
+    kicker.className = "dce-kicker";
+    kicker.textContent = `${String(index + 1).padStart(2, "0")} · ${career.short_name || content.kicker}`;
     const title = document.createElement("h3");
-    title.textContent = career.short_name || career.name;
-    program.append(icon, title);
-    grid.append(program);
+    title.append(document.createTextNode(content.headline[0]), document.createElement("br"), document.createTextNode(content.headline[1]));
+    const description = document.createElement("p");
+    description.textContent = career.description || content.description;
+    const tags = document.createElement("div");
+    tags.className = "dce-tags";
+    content.tags.forEach((label) => {
+      const tag = document.createElement("span");
+      tag.textContent = label;
+      tags.append(tag);
+    });
+    copy.append(kicker, title, description, tags);
+
+    const visual = document.createElement("div");
+    visual.className = "dce-visual";
+    visual.setAttribute("aria-hidden", "true");
+    visual.innerHTML = careerArt(type);
+    slide.append(copy, visual);
+    grid.append(slide);
+
+    const button = document.createElement("button");
+    button.className = `dce-dot${index === 0 ? " is-active" : ""}`;
+    button.type = "button";
+    button.style.setProperty("--dot", career.accent || content.accent);
+    button.setAttribute("aria-label", `Mostrar ${career.name}`);
+    const progress = document.createElement("i");
+    button.append(progress);
+    button.addEventListener("click", () => showCareer(index));
+    nav.append(button);
   });
-  const heading = document.querySelector(".programs-header h2");
-  heading.textContent = `Conoce nuestras ${state.careers.length} ingenierías`;
+  document.querySelector(".dce-title-text").textContent = `Conoce nuestras ${careers.length} ingenierías`;
+  careerIndex = Math.min(careerIndex, Math.max(careers.length - 1, 0));
+  showCareer(careerIndex);
 }
 
 function renderAnnouncements() {
@@ -285,6 +370,7 @@ document.addEventListener("visibilitychange", () => {
   const video = byId("hero-media").querySelector("video");
   if (document.hidden) {
     clearInterval(featuredTimer);
+    clearTimeout(careerTimer);
     video?.pause();
     byId("featured-card").classList.remove("carousel-running");
     return;
@@ -292,12 +378,19 @@ document.addEventListener("visibilitychange", () => {
   video?.play().catch(() => {});
   showFeaturedSlide(featuredIndex, false);
   scheduleFeaturedCarousel();
+  showCareer(careerIndex);
 });
 
 reducedMotion.addEventListener?.("change", () => {
   showFeaturedSlide(featuredIndex, false);
   scheduleFeaturedCarousel();
+  showCareer(careerIndex);
 });
+
+byId("career-carousel").addEventListener("mouseenter", () => clearTimeout(careerTimer));
+byId("career-carousel").addEventListener("mouseleave", () => showCareer(careerIndex));
+byId("career-carousel").addEventListener("focusin", () => clearTimeout(careerTimer));
+byId("career-carousel").addEventListener("focusout", () => showCareer(careerIndex));
 
 if (supabase) {
   supabase.channel("dce-original-display").on("postgres_changes", { event: "*", schema: "public" }, loadData).subscribe();

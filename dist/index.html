@@ -1465,6 +1465,272 @@
       to { transform: scaleX(1); }
     }
 
+    /* MICROCARRUSEL DE INGENIERÍAS */
+
+    .programs.dce-careers {
+      --active: #10a66d;
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      padding: 0;
+      overflow: hidden;
+      border-radius: calc(var(--u) * 1.4);
+      background: rgba(255, 255, 255, .96);
+    }
+
+    .dce-careers::after {
+      position: absolute;
+      right: calc(var(--u) * -3);
+      bottom: calc(var(--u) * -6);
+      z-index: 0;
+      width: calc(var(--u) * 16);
+      height: calc(var(--u) * 16);
+      border-radius: 50%;
+      background: var(--active);
+      content: "";
+      filter: blur(4px);
+      opacity: .065;
+      transition: background .6s ease;
+    }
+
+    .dce-top {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(var(--u) * .85) calc(var(--u) * 1.1) 0;
+    }
+
+    .dce-title {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * .5);
+      font-size: calc(var(--u) * .82);
+      font-weight: 850;
+    }
+
+    .dce-title svg {
+      width: calc(var(--u) * .72);
+      height: calc(var(--u) * 1.15);
+      color: var(--orange);
+    }
+
+    .dce-motto {
+      color: var(--blue);
+      font-family: Georgia, serif;
+      font-size: calc(var(--u) * .56);
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .dce-viewport,
+    .dce-track,
+    .dce-slide {
+      height: 100%;
+    }
+
+    .dce-viewport {
+      overflow: hidden;
+    }
+
+    .dce-track {
+      display: flex;
+      will-change: transform;
+      transition: transform .75s cubic-bezier(.72, 0, .2, 1);
+    }
+
+    .dce-slide {
+      --accent: #10a66d;
+      --wash: #e6f8f0;
+      position: relative;
+      display: grid;
+      flex: 0 0 100%;
+      grid-template-columns: 53% 47%;
+      align-items: center;
+      padding: calc(var(--u) * 2.3) calc(var(--u) * 1.1) calc(var(--u) * .75);
+    }
+
+    .dce-copy {
+      position: relative;
+      z-index: 2;
+      padding-left: calc(var(--u) * .45);
+      opacity: 0;
+      transform: translateX(calc(var(--u) * -1.1));
+      transition: opacity .45s .22s ease, transform .45s .22s ease;
+    }
+
+    .dce-slide.is-active .dce-copy {
+      opacity: 1;
+      transform: none;
+    }
+
+    .dce-kicker {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * .4);
+      margin-bottom: calc(var(--u) * .18);
+      color: var(--accent);
+      font-size: calc(var(--u) * .58);
+      font-weight: 900;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .dce-kicker::before {
+      width: calc(var(--u) * 1.1);
+      height: 2px;
+      background: currentColor;
+      content: "";
+    }
+
+    .dce-copy h3 {
+      margin: 0;
+      max-width: calc(var(--u) * 20);
+      color: var(--navy);
+      font-size: calc(var(--u) * 1.65);
+      letter-spacing: -.045em;
+      line-height: .94;
+    }
+
+    .dce-copy p {
+      display: -webkit-box;
+      max-width: calc(var(--u) * 19);
+      margin: calc(var(--u) * .42) 0 0;
+      overflow: hidden;
+      color: #53647d;
+      font-size: calc(var(--u) * .7);
+      line-height: 1.35;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .dce-tags {
+      display: flex;
+      gap: calc(var(--u) * .3);
+      margin-top: calc(var(--u) * .48);
+    }
+
+    .dce-tags span {
+      padding: calc(var(--u) * .18) calc(var(--u) * .42);
+      border-radius: 999px;
+      color: var(--accent);
+      background: var(--wash);
+      font-size: calc(var(--u) * .52);
+      font-weight: 800;
+    }
+
+    .dce-visual {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      height: calc(var(--u) * 7);
+      place-items: center;
+      opacity: 0;
+      transform: translateX(calc(var(--u) * 1.35)) scale(.92);
+      transition: opacity .55s .2s ease, transform .55s .2s ease;
+    }
+
+    .dce-slide.is-active .dce-visual {
+      opacity: 1;
+      transform: none;
+    }
+
+    .dce-visual::before {
+      position: absolute;
+      width: calc(var(--u) * 8.1);
+      height: calc(var(--u) * 6);
+      border-radius: 58% 42% 47% 53% / 46% 58% 42% 54%;
+      background: var(--wash);
+      content: "";
+      animation: dce-morph 5.5s ease-in-out infinite alternate;
+    }
+
+    .dce-art {
+      position: relative;
+      width: min(calc(var(--u) * 14.8), 98%);
+      height: calc(var(--u) * 6.9);
+      overflow: visible;
+      color: var(--accent);
+      filter: drop-shadow(0 calc(var(--u) * .6) calc(var(--u) * .8) color-mix(in srgb, var(--accent) 17%, transparent));
+    }
+
+    .dce-art .base { fill: #fff; stroke: #dce4ec; stroke-width: 2; }
+    .dce-art .line { fill: none; stroke: #aebcca; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .dce-art .accent { fill: currentColor; }
+    .dce-art .stroke { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .dce-art .wash { fill: var(--wash); }
+    .chem-bubble { transform-box: fill-box; transform-origin: center; animation: dce-bubble 2.3s ease-in infinite; }
+    .chem-bubble.b2 { animation-delay: .7s; }
+    .chem-bubble.b3 { animation-delay: 1.4s; }
+    .atom { transform-origin: 190px 54px; animation: dce-rotate 8s linear infinite; }
+    .robot-arm { transform-box: fill-box; transform-origin: 21% 88%; animation: dce-arm 2.8s ease-in-out infinite alternate; }
+    .robot-box { animation: dce-lift 2.8s ease-in-out infinite alternate; }
+    .parcel { animation: dce-conveyor 3.6s linear infinite; }
+    .parcel.p2 { animation-delay: -1.8s; }
+    .bar { transform-box: fill-box; transform-origin: center bottom; animation: dce-bar 1.8s ease-in-out infinite alternate; }
+    .bar.b2 { animation-delay: .35s; }
+    .bar.b3 { animation-delay: .7s; }
+    .net { stroke-dasharray: 4 7; animation: dce-dash 1.5s linear infinite; }
+    .packet { animation: dce-packet 2s ease-in-out infinite alternate; }
+    .packet.p2 { animation-delay: .55s; }
+    .code { animation: dce-blink 1.2s steps(2, end) infinite; }
+
+    .dce-nav {
+      position: absolute;
+      right: calc(var(--u) * 1);
+      bottom: calc(var(--u) * .65);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: calc(var(--u) * .3);
+    }
+
+    .dce-dot {
+      position: relative;
+      width: calc(var(--u) * 1.25);
+      height: 4px;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      border-radius: 9px;
+      background: #dce3ea;
+      cursor: pointer;
+    }
+
+    .dce-dot i {
+      position: absolute;
+      inset: 0;
+      background: var(--dot);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .dce-dot.is-active i {
+      animation: dce-progress 4.8s linear forwards;
+    }
+
+    .dce-dot:focus-visible {
+      outline: 2px solid var(--active);
+      outline-offset: 3px;
+    }
+
+    @keyframes dce-morph { to { border-radius: 42% 58% 61% 39% / 58% 42% 58% 42%; transform: rotate(7deg) scale(1.05); } }
+    @keyframes dce-rotate { to { transform: rotate(360deg); } }
+    @keyframes dce-bubble { 0% { opacity: 0; transform: translateY(10px) scale(.45); } 35% { opacity: 1; } 100% { opacity: 0; transform: translateY(-25px) scale(1.15); } }
+    @keyframes dce-arm { to { transform: rotate(-8deg); } }
+    @keyframes dce-lift { to { transform: translateY(-8px); } }
+    @keyframes dce-conveyor { from { transform: translateX(-65px); } to { transform: translateX(210px); } }
+    @keyframes dce-bar { to { transform: scaleY(.5); } }
+    @keyframes dce-dash { to { stroke-dashoffset: -22; } }
+    @keyframes dce-packet { to { transform: translate(26px, -15px); } }
+    @keyframes dce-blink { 50% { opacity: .25; } }
+    @keyframes dce-progress { to { transform: scaleX(1); } }
+
     .hero-button {
       color: #fff;
       text-decoration: none;
@@ -1559,6 +1825,38 @@
       .featured-carousel span,
       .featured-carousel strong {
         font-size: .68rem;
+      }
+
+      .programs.dce-careers {
+        min-height: 14rem;
+      }
+
+      .dce-slide {
+        grid-template-columns: 55% 45%;
+        padding: 3rem .85rem 1.25rem;
+      }
+
+      .dce-copy h3 {
+        font-size: clamp(1.4rem, 6vw, 2rem);
+      }
+
+      .dce-copy p {
+        font-size: .72rem;
+      }
+
+      .dce-motto {
+        display: none;
+      }
+
+      .dce-art {
+        width: min(13rem, 98%);
+        height: 7rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dce-dot.is-active i {
+        transform: scaleX(1);
       }
     }
   </style>
@@ -1755,41 +2053,18 @@
           </article>
         </section>
 
-        <section class="programs">
-          <header class="programs-header">
-            <div>
-              <b>♙</b>
-              <h2>Conoce nuestras 4 ingenierías</h2>
+        <section class="programs dce-careers" id="career-carousel" aria-roledescription="carrusel" aria-label="Conoce nuestras ingenierías">
+          <div class="dce-top">
+            <div class="dce-title">
+              <svg viewBox="0 0 20 32" aria-hidden="true"><circle cx="10" cy="7" r="5" fill="currentColor"></circle><path d="M7 12h6l2 11H5L7 12Zm-4 13h14v4H3z" fill="currentColor"></path></svg>
+              <span class="dce-title-text">Conoce nuestras 4 ingenierías</span>
             </div>
-
-            <span>Tu talento, más lejos</span>
-          </header>
-
-          <div class="program-grid" id="career-grid">
-            <article class="program systems">
-              <div class="program-icon">▣</div>
-
-              <h3>
-                Sistemas y<br>
-                Negocios Digitales
-              </h3>
-            </article>
-
-            <article class="program industrial">
-              <div class="program-icon">⚙</div>
-              <h3>Industrial</h3>
-            </article>
-
-            <article class="program mechatronics">
-              <div class="program-icon">⌘</div>
-              <h3>Mecatrónica</h3>
-            </article>
-
-            <article class="program chemistry">
-              <div class="program-icon">⚗</div>
-              <h3>Química</h3>
-            </article>
+            <div class="dce-motto">Tu talento, más lejos</div>
           </div>
+          <div class="dce-viewport">
+            <div class="dce-track" id="career-grid"></div>
+          </div>
+          <div class="dce-nav" id="career-nav" aria-label="Seleccionar ingeniería"></div>
         </section>
 
       </aside>
