@@ -129,6 +129,7 @@ function renderEvents() {
     .filter((event) => event.status === "published")
     .sort((a, b) => Number(a.display_order || 0) - Number(b.display_order || 0) || new Date(a.starts_at) - new Date(b.starts_at))
     .slice(0, 3);
+  section.style.setProperty("--event-count", String(Math.max(events.length, 1)));
   if (!events.length) {
     const empty = document.createElement("p");
     empty.className = "events-empty";
