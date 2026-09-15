@@ -111,7 +111,8 @@ function showFeaturedSlide(index, animate = true) {
   const title = byId("featured-title");
   title.querySelector("span").textContent = first;
   title.querySelector("strong").textContent = accent;
-  byId("featured-summary").textContent = event.summary || "Ideas que transforman";
+  byId("featured-summary").textContent = event.summary || "";
+  byId("featured-summary").hidden = Boolean(event.description) || !event.summary;
   const description = byId("featured-description");
   description.textContent = event.description || "";
   description.hidden = !event.description;
@@ -127,7 +128,7 @@ function showFeaturedSlide(index, animate = true) {
   byId("featured-location-detail").textContent = locationDetail;
 
   const cta = byId("featured-cta");
-  cta.hidden = false;
+  cta.hidden = !event.cta_url;
   cta.querySelector(".hero-button-label").textContent = event.cta_label || "Conoce más";
   if (event.cta_url) {
     cta.href = event.cta_url;
@@ -138,7 +139,7 @@ function showFeaturedSlide(index, animate = true) {
   renderFeaturedMedia(media);
   const hero = byId("featured-card");
   hero.setAttribute("aria-label", `Evento destacado: ${event.title}`);
-  hero.style.setProperty("--carousel-duration", `${Math.max(5, Number(state.settings.rotation_seconds) || 10)}s`);
+  hero.style.setProperty("--carousel-duration", `${Math.max(12, Number(state.settings.rotation_seconds) || 12)}s`);
   byId("featured-position").textContent = `${String(featuredIndex + 1).padStart(2, "0")} / ${String(featuredSlides.length).padStart(2, "0")}`;
   byId("featured-carousel").hidden = featuredSlides.length < 2 || reducedMotion.matches;
   hero.classList.remove("slide-enter", "carousel-running");
@@ -152,13 +153,15 @@ function showFeaturedSlide(index, animate = true) {
 function scheduleFeaturedCarousel() {
   clearInterval(featuredTimer);
   if (featuredSlides.length < 2 || document.hidden || reducedMotion.matches) return;
-  const seconds = Math.max(5, Number(state.settings.rotation_seconds) || 10);
+  const seconds = Math.max(12, Number(state.settings.rotation_seconds) || 12);
   featuredTimer = setInterval(() => showFeaturedSlide(featuredIndex + 1), seconds * 1000);
 }
 
 function renderFeatured() {
+  const nextSlides = buildFeaturedSlides();
+  if (JSON.stringify(nextSlides) === JSON.stringify(featuredSlides)) return;
   const currentKey = featuredSlides[featuredIndex]?.event.id;
-  featuredSlides = buildFeaturedSlides();
+  featuredSlides = nextSlides;
   const retainedIndex = currentKey ? featuredSlides.findIndex((slide) => slide.event.id === currentKey) : -1;
   featuredIndex = retainedIndex >= 0 ? retainedIndex : 0;
   showFeaturedSlide(featuredIndex, false);
@@ -253,7 +256,7 @@ function showCareer(index) {
   root.style.setProperty("--active", slides[careerIndex].style.getPropertyValue("--accent"));
   clearTimeout(careerTimer);
   if (slides.length > 1 && !document.hidden && !reducedMotion.matches) {
-    careerTimer = setTimeout(() => showCareer(careerIndex + 1), 4800);
+    careerTimer = setTimeout(() => showCareer(careerIndex + 1), 9000);
   }
 }
 
@@ -281,7 +284,7 @@ function renderCareers() {
     kicker.className = "dce-kicker";
     kicker.textContent = `${String(index + 1).padStart(2, "0")} · ${career.short_name || content.kicker}`;
     const title = document.createElement("h3");
-    title.append(document.createTextNode(content.headline[0]), document.createElement("br"), document.createTextNode(content.headline[1]));
+    title.textContent = career.description || content.headline.join(" ");
     const description = document.createElement("p");
     description.textContent = career.description || content.description;
     const tags = document.createElement("div");
@@ -318,6 +321,10 @@ function renderCareers() {
 function renderAnnouncements() {
   clearInterval(announcementTimer);
   const bar = byId("announcement-bar");
+  const phrase = document.querySelector(".phrase");
+  phrase.before(bar);
+  phrase.hidden = state.announcements.length > 0;
+  phrase.style.display = state.announcements.length ? "none" : "";
   if (!state.announcements.length) {
     bar.hidden = true;
     return;
@@ -326,6 +333,7 @@ function renderAnnouncements() {
   let index = 0;
   const show = () => {
     const item = state.announcements[index % state.announcements.length];
+    bar.dataset.priority = item.priority || "normal";
     byId("announcement-title").textContent = item.priority === "urgent" ? "Urgente" : item.title || "Aviso";
     byId("announcement-text").textContent = item.body;
     index += 1;
@@ -370,6 +378,7 @@ async function loadData() {
 loadData();
 
 document.addEventListener("visibilitychange", () => {
+  byId("career-carousel").classList.toggle("motion-paused", document.hidden);
   const video = byId("hero-media").querySelector("video");
   if (document.hidden) {
     clearInterval(featuredTimer);
