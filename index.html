@@ -1330,19 +1330,36 @@
       inset: 0;
       z-index: 0;
       opacity: 0;
-      background-position: center;
+      background-color: #cbd3dc;
+      background-position: center 38%;
       background-size: cover;
+      filter: saturate(1.08) contrast(1.05);
       transition: opacity 500ms ease;
     }
 
     .hero-media.active {
-      opacity: 0.42;
+      opacity: 1;
     }
 
     .hero-media::after {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, #fff 5%, rgba(255,255,255,.95) 38%, rgba(255,255,255,.2) 100%);
+      background:
+        linear-gradient(
+          90deg,
+          #ffffff 0%,
+          rgba(255, 255, 255, 0.98) 24%,
+          rgba(255, 255, 255, 0.86) 38%,
+          rgba(255, 255, 255, 0.36) 55%,
+          rgba(255, 255, 255, 0.05) 72%,
+          rgba(5, 18, 42, 0.08) 100%
+        ),
+        linear-gradient(
+          0deg,
+          rgba(5, 18, 42, 0.38) 0%,
+          rgba(5, 18, 42, 0.08) 24%,
+          transparent 45%
+        );
       content: "";
     }
 
@@ -1408,6 +1425,21 @@
     }
 
     @media (max-width: 720px) {
+      .hero-media {
+        background-position: 62% center;
+      }
+
+      .hero-media::after {
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(255, 255, 255, 0.94) 52%,
+            rgba(255, 255, 255, 0.58) 75%,
+            rgba(5, 18, 42, 0.18) 100%
+          );
+      }
+
       .announcement-chip {
         right: 1rem;
         bottom: 1rem;
