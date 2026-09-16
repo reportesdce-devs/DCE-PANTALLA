@@ -2243,11 +2243,19 @@
           weekday: "long"
         }).format(now);
 
-      elements.weekday.textContent =
-        capitalize(weekday);
+      const localHour = Number(new Intl.DateTimeFormat("es-MX", {
+        timeZone: TIME_ZONE,
+        hour: "numeric",
+        hourCycle: "h23"
+      }).format(now));
+      elements.weekday.textContent = localHour >= 6 && localHour < 12
+        ? "Buen día"
+        : localHour >= 12 && localHour < 19
+          ? "Buenas tardes"
+          : "Buenas noches";
 
       elements.date.textContent =
-        new Intl.DateTimeFormat("es-MX", {
+        capitalize(weekday) + " · " + new Intl.DateTimeFormat("es-MX", {
           timeZone: TIME_ZONE,
           day: "numeric",
           month: "long",
