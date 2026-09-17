@@ -36,10 +36,8 @@ function format(value, options) {
 }
 
 function splitTitle(title) {
-  const colon = title.indexOf(":");
-  if (colon > -1) return [title.slice(0, colon + 1), title.slice(colon + 1).trim()];
-  const words = title.trim().split(/\s+/);
-  return words.length > 1 ? [words.slice(0, -1).join(" "), words.at(-1)] : [title, ""];
+  // Preserve editorial wording: a trailing year is not an accent phrase.
+  return [title.trim(), ""];
 }
 
 function splitLocation(location = "IEST Anáhuac") {
